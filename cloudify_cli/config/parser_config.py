@@ -104,6 +104,22 @@ def parser_config():
             }
         },
         'commands': {
+            'install': {
+                'help': '',  # TODO add help text
+                'arguments': {
+                    # blueprint-path (default value, blueprint.yaml)
+                    # blueprint-id (default value, dependent on dir name)
+                    # archive-location
+                    # blueprint-filename (default value, blueprint.yaml)
+                    # deployment-id (default value, dependent on dir name)
+                    # inputs
+                    # workflow
+                    # parameters
+                    # allow-custom-parameters
+                    # timeout
+                    # include-logs
+                }
+            },
             'plugins': {
                 'help': "Manages Cloudify's plugins",
                 'sub_commands': {
@@ -354,7 +370,7 @@ def parser_config():
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
                                 hlp='The id of the deployment to install agents for. If ommited, this '
-                                'will install agents for all deployments'
+                                    'will install agents for all deployments'
                             ),
                             '-l,--include-logs': {
                                 'dest': 'include_logs',
@@ -383,7 +399,7 @@ def parser_config():
                                 'dest': 'inputs',
                                 'required': False,
                                 'help': 'Inputs file/string for the deployment creation ({0})'
-                                        .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             }
                         },
                         'help': 'command for creating a deployment of a blueprint',
@@ -392,7 +408,7 @@ def parser_config():
                     'delete': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                    hlp='the id of the deployment to delete'),
+                                hlp='the id of the deployment to delete'),
                             '-f,--ignore-live-nodes': {
                                 'dest': 'ignore_live_nodes',
                                 'action': 'store_true',
@@ -488,7 +504,7 @@ def parser_config():
                                 'type': str,
                                 'required': False,
                                 'help': 'Parameters for the workflow execution ({0})'
-                                        .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             },
                             '--allow-custom-parameters': {
                                 'dest': 'allow_custom_parameters',
@@ -636,6 +652,21 @@ def parser_config():
             'local': {
                 'help': 'Execute workflows locally',
                 'sub_commands': {
+                    'install': {
+                        'help': '',  # TODO add help text
+                        'arguments': {
+
+                            # blueprint-path (default value, blueprint.yaml)
+                            # inputs
+                            # workflow
+                            # parameters
+                            # allow-custom-parameters
+                            # task-retries
+                            # task-retry-interval
+                            # task-thread-pool-size
+                        }
+                    },
+
                     'init': {
                         'help': 'Init a local workflow execution environment in '
                                 'in the current working directory',
@@ -652,7 +683,7 @@ def parser_config():
                                 'dest': 'inputs',
                                 'required': False,
                                 'help': 'Inputs file/string for the local workflow creation ({0})'
-                                        .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             },
                             '--install-plugins': {
                                 'dest': 'install_plugins_',
@@ -711,7 +742,7 @@ def parser_config():
                                 'type': str,
                                 'required': False,
                                 'help': 'Parameters for the workflow execution ({0})'
-                                        .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             },
                             '--allow-custom-parameters': {
                                 'dest': 'allow_custom_parameters',
@@ -830,7 +861,7 @@ def parser_config():
                         'dest': 'inputs',
                         'required': False,
                         'help': 'Inputs file/string for a manager blueprint ({0})'
-                                .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                            .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                     },
                     '--keep-up-on-failure': {
                         'dest': 'keep_up',
