@@ -108,6 +108,25 @@ def parser_config():
                 'help': '',  # TODO add help text
                 'arguments': {
                     # blueprint-path (default value, blueprint.yaml)
+                    '-p,--blueprint-path': {
+                        'dest': 'blueprint_path',
+                        'type': argparse.FileType(),
+                        'default': "blueprint.yaml",  # search in the current directory for a file called blueprint.yaml
+                        'help': "Path to the application's blueprint file",
+                        'completer': completion_utils.yaml_files_completer
+                    },
+                    '-b,--blueprint-id': {
+                        'type': str,
+                        'help': 'The id of the blueprint',
+                        'dest': 'blueprint_id',
+                        'default': 'blueprint-id-default'
+                    }
+                },
+                'handler': cfy.blueprints.upload
+                # TODO this should be an `install`-specific handler, which
+                # TODO should include, among others, the logic of
+                # TODO `cfy.blueprints.upload`
+
                     # blueprint-id (default value, dependent on dir name)
                     # archive-location
                     # blueprint-filename (default value, blueprint.yaml)
@@ -118,7 +137,6 @@ def parser_config():
                     # allow-custom-parameters
                     # timeout
                     # include-logs
-                }
             },
             'plugins': {
                 'help': "Manages Cloudify's plugins",
