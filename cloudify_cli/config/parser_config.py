@@ -16,6 +16,7 @@
 # flake8: noqa
 
 import argparse
+import os
 
 from cloudify_cli import commands as cfy
 from cloudify_cli.config import completion_utils
@@ -107,7 +108,6 @@ def parser_config():
             'install': {
                 'help': '',  # TODO add help text
                 'arguments': {
-                    # blueprint-path (default value, blueprint.yaml)
                     '-p,--blueprint-path': {
                         'dest': 'blueprint_path',
                         'type': argparse.FileType(),
@@ -119,7 +119,7 @@ def parser_config():
                         'type': str,
                         'help': 'The id of the blueprint',
                         'dest': 'blueprint_id',
-                        'default': 'blueprint-id-default'
+                        'default': None
                     }
                 },
                 'handler': cfy.blueprints.upload
@@ -127,7 +127,6 @@ def parser_config():
                 # TODO should include, among others, the logic of
                 # TODO `cfy.blueprints.upload`
 
-                    # blueprint-id (default value, dependent on dir name)
                     # archive-location
                     # blueprint-filename (default value, blueprint.yaml)
                     # deployment-id (default value, dependent on dir name)
