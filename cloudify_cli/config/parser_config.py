@@ -108,6 +108,9 @@ def parser_config():
             'install': {
                 'help': '',  # TODO add help text
                 'arguments': {
+                    # TODO make {blueprint-path, blueprint-id} and
+                    # TODO {archive-location, blueprint-filename}
+                    # TODO mutually exclusive group
                     '-p,--blueprint-path': {
                         'dest': 'blueprint_path',
                         'type': argparse.FileType(),
