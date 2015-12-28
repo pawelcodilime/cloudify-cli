@@ -36,6 +36,24 @@ def blueprint_id_argument():
     }
 
 
+def archive_location_argument():
+    return {
+        'dest': 'archive_location',
+        'type': str,
+        'required': True,
+        'help': "Path or URL to the application's blueprint archive file",
+        'completer': completion_utils.archive_files_completer
+    }
+
+
+def blueprint_filename_argument():
+    return {
+        'dest': 'blueprint_filename',
+        'type': str,
+        'help': "Name of the archive's main blueprint file",
+    }
+
+
 def snapshot_id_argument(hlp):
     return {
         'metavar': 'SNAPSHOT_ID',
@@ -119,6 +137,9 @@ def parser_config():
                     '-b,--blueprint-id': argument_utils.remove_completer(
                             argument_utils.make_optional(blueprint_id_argument())
                     ),
+                    '-l,--archive-location': archive_location_argument(),
+                    '-n,--blueprint-filename': blueprint_filename_argument()
+
                 },
                 'handler': cfy.blueprints.upload
                 # TODO this should be an `install`-specific handler, which
@@ -210,23 +231,8 @@ def parser_config():
                     },
                     'publish-archive': {
                         'arguments': {
-                            '-l,--archive-location': {
-                                'metavar': 'ARCHIVE_LOCATION',
-                                'dest': 'archive_location',
-                                'type': str,
-                                'required': True,
-                                'help': "Path or URL to the application's "
-                                        "blueprint archive file",
-                                'completer': completion_utils.archive_files_completer
-                            },
-                            '-n,--blueprint-filename': {
-                                'metavar': 'BLUEPRINT_FILENAME',
-                                'dest': 'blueprint_filename',
-                                'type': str,
-                                'required': False,
-                                'help': "Name of the archive's main blueprint "
-                                        "file",
-                            },
+                            '-l,--archive-location': archive_location_argument(),
+                            '-n,--blueprint-filename': blueprint_filename_argument(),
                             '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
                         },
                         'help': 'command for publishing a blueprint '
