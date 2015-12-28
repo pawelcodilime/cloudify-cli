@@ -27,7 +27,6 @@ FORMAT_INPUT_AS_YAML_OR_DICT = 'formatted as YAML or as "key1=value1;key2=value2
 
 def blueprint_id_argument():
     return {
-        'metavar': 'BLUEPRINT_ID',
         'type': str,
         'help': 'The id of the blueprint',
         'dest': 'blueprint_id',
