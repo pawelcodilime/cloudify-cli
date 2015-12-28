@@ -126,7 +126,7 @@ def parser_config():
                 'arguments': {
                     # TODO make {blueprint-path, blueprint-id} and
                     # TODO {archive-location, blueprint-filename}
-                    # TODO mutually exclusive group
+                    # TODO mutually exclusive groups
                     '-p,--blueprint-path': {
                         'dest': 'blueprint_path',
                         'type': argparse.FileType(),
@@ -142,12 +142,10 @@ def parser_config():
 
                 },
                 'handler': cfy.blueprints.upload
-                # TODO this should be an `install`-specific handler, which
-                # TODO should include, among others, the logic of
+                # TODO this should be an `install`-specific handler,
+                # TODO which should include, amongst others, the logic of
                 # TODO `cfy.blueprints.upload`
 
-                    # archive-location
-                    # blueprint-filename (default value, blueprint.yaml)
                     # deployment-id (default value, dependent on dir name)
                     # inputs
                     # workflow
