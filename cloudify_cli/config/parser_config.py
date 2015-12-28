@@ -16,7 +16,6 @@
 # flake8: noqa
 
 import argparse
-import os
 
 from cloudify_cli import commands as cfy
 from cloudify_cli.config import completion_utils
@@ -114,16 +113,13 @@ def parser_config():
                     '-p,--blueprint-path': {
                         'dest': 'blueprint_path',
                         'type': argparse.FileType(),
-                        'default': "blueprint.yaml",  # search in the current directory for a file called blueprint.yaml
+                        'default': "blueprint.yaml",
                         'help': "Path to the application's blueprint file",
                         'completer': completion_utils.yaml_files_completer
                     },
-                    '-b,--blueprint-id': {
-                        'type': str,
-                        'help': 'The id of the blueprint',
-                        'dest': 'blueprint_id',
-                        'default': None
-                    }
+                    '-b,--blueprint-id': argument_utils.remove_completer(
+                            argument_utils.make_optional(blueprint_id_argument())
+                    ),
                 },
                 'handler': cfy.blueprints.upload
                 # TODO this should be an `install`-specific handler, which
