@@ -69,9 +69,7 @@ def snapshot_id_argument(hlp):
 def deployment_id_argument(hlp):
     return {
         'dest': 'deployment_id',
-        'metavar': 'DEPLOYMENT_ID',
         'type': str,
-        'required': False,
         'help': hlp,
         'completer': completion_utils.objects_args_completer_maker('deployments')
     }
