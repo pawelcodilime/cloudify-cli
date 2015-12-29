@@ -69,7 +69,6 @@ def snapshot_id_argument(hlp):
 def deployment_id_argument(hlp):
     return {
         'dest': 'deployment_id',
-        'type': str,
         'help': hlp,
         'completer': completion_utils.objects_args_completer_maker('deployments')
     }
@@ -109,7 +108,7 @@ def plugin_id_argument(hlp):
     }
 
 
-def parser_config():
+def parser_config():  # TODO remove all the `'required': False` lines
     return {
         'description': 'Manages Cloudify in different Cloud Environments',
         'arguments': {
@@ -136,10 +135,13 @@ def parser_config():
                             argument_utils.make_optional(blueprint_id_argument())
                     ),
                     '-l,--archive-location': argument_utils.make_optional(archive_location_argument()),
-                    '-n,--blueprint-filename': blueprint_filename_argument()
+                    '-n,--blueprint-filename': blueprint_filename_argument(),
+                    '-d,--deployment-id': deployment_id_argument(
+                            hlp='The id of the deployed blueprint')
 
                 },
                 'handler': cfy.blueprints.upload
+                # 'handler': cfy.blueprints.publish_archive
                 # TODO this should be an `install`-specific handler,
                 # TODO which should include, amongst others, the logic of
                 # TODO `cfy.blueprints.upload`
@@ -389,8 +391,9 @@ def parser_config():
                     'install': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp='The id of the deployment to install agents for. If ommited, this '
-                                    'will install agents for all deployments'
+                                hlp='The id of the deployment to install '
+                                    'agents for. If omitted, this will '
+                                    'install agents for all deployments'
                             ),
                             '-l,--include-logs': {
                                 'dest': 'include_logs',
@@ -410,7 +413,8 @@ def parser_config():
                         'arguments': {
                             '-d,--deployment-id': argument_utils.remove_completer(
                                 deployment_id_argument(
-                                    hlp='A unique id that will be assigned to the created deployment'
+                                    hlp='A unique id that will be assigned to '
+                                        'the created deployment'
                                 )
                             ),
                             '-b,--blueprint-id': blueprint_id_argument(),
@@ -428,7 +432,7 @@ def parser_config():
                     'delete': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp='the id of the deployment to delete'),
+                                hlp='The id of the deployment to delete'),
                             '-f,--ignore-live-nodes': {
                                 'dest': 'ignore_live_nodes',
                                 'action': 'store_true',
@@ -453,7 +457,8 @@ def parser_config():
                     'outputs': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp='The id of the deployment to get outputs for'
+                                hlp='The id of the deployment to get outputs '
+                                    'for'
                             )
                         },
                         'help': 'command for getting a specific deployment outputs',
@@ -501,7 +506,8 @@ def parser_config():
                     'list': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp="filter executions for a given deployment by the deployment's id"
+                                hlp="Filter executions for a given deployment "
+                                    "by the deployment's id"
                             ),
                             '--system-workflows': {
                                 'dest': 'include_system_workflows',
@@ -589,22 +595,20 @@ def parser_config():
                                 'required': True,
                                 'help': 'The ID of the node to get'
                             },
-                            '-d,--deployment-id': {
-                                'dest': 'deployment_id',
-                                'required': True,
-                                'help': 'Filter nodes for a given deployment according to the deployment ID'
-                            }
+                            '-d,--deployment-id': argument_utils.make_required(
+                                    deployment_id_argument(
+                                            hlp='Filter nodes for a given '
+                                                'deployment according to the '
+                                                'deployment ID'))
                         },
                         'help': 'command for getting a node by its ID',
                         'handler': cfy.nodes.get
                     },
                     'list': {
                         'arguments': {
-                            '-d,--deployment-id': {
-                                'dest': 'deployment_id',
-                                'required': False,
-                                'help': 'Filter nodes for a given deployment according to the deployment ID'
-                            }
+                            '-d,--deployment-id': deployment_id_argument(
+                                    hlp='Filter nodes for a given deployment '
+                                        'according to the deployment ID')
                         },
                         'help': 'Command for getting all nodes',
                         'handler': cfy.nodes.ls
@@ -627,11 +631,10 @@ def parser_config():
                     },
                     'list': {
                         'arguments': {
-                            '-d,--deployment-id': {
-                                'dest': 'deployment_id',
-                                'required': False,
-                                'help': 'Filter node instances for a given deployment according to the deployment ID'
-                            },
+                            '-d,--deployment-id': deployment_id_argument(
+                                    hlp='Filter node instances for a given '
+                                        'deployment according to the '
+                                        'deployment ID'),
                             '--node-name': {
                                 'dest': 'node_name',
                                 'required': False,
@@ -649,7 +652,8 @@ def parser_config():
                     'get': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp='The id of the deployment for which the workflow belongs'
+                                hlp='The id of the deployment for whic  h the '
+                                    'workflow belongs'
                             ),
                             '-w,--workflow': workflow_id_argument(
                                 hlp='The id of the workflow to get'
@@ -661,7 +665,8 @@ def parser_config():
                     'list': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp='The id of the deployment whose workflows to list'
+                                hlp='The id of the deployment whose workflows '
+                                    'to list'
                             )
                         },
                         'help': 'command for listing workflows for a deployment',
