@@ -135,7 +135,7 @@ def parser_config():
                     '-b,--blueprint-id': argument_utils.remove_completer(
                             argument_utils.make_optional(blueprint_id_argument())
                     ),
-                    '-l,--archive-location': archive_location_argument(),
+                    '-l,--archive-location': argument_utils.make_optional(archive_location_argument()),
                     '-n,--blueprint-filename': blueprint_filename_argument()
 
                 },
@@ -145,6 +145,9 @@ def parser_config():
                 # TODO `cfy.blueprints.upload`
 
                     # deployment-id (default value, dependent on dir name)
+                    # TODO remove `'type': 'str'` from deployment-id,
+                    # TODO use this argument, and check if this breaks
+                    # TODO something. Do this because Dan suggests that re
                     # inputs
                     # workflow
                     # parameters
