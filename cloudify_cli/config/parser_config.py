@@ -689,7 +689,7 @@ def parser_config():
                     },
 
                     'init': {
-                        'help': 'Init a local workflow execution environment in ' # TODO fix this typo (duplicate 'in')
+                        'help': 'Init a local workflow execution environment '
                                 'in the current working directory',
                         'arguments': {
                             '-p,--blueprint-path': {
