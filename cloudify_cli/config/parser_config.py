@@ -108,7 +108,7 @@ def plugin_id_argument(hlp):
     }
 
 
-def parser_config():  # TODO remove all the `'required': False` lines
+def parser_config():
     return {
         'description': 'Manages Cloudify in different Cloud Environments',
         'arguments': {
@@ -182,7 +182,7 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'type': str,
                                 'help': 'The output file path of the plugin to be downloaded',
                                 'dest': 'output',
-                                'required': False
+
                             }
                         },
                         'help': 'Command for downloading a plugin from the management server',
@@ -240,7 +240,7 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'type': str,
                                 'help': 'The output file path of the blueprint to be downloaded',
                                 'dest': 'output',
-                                'required': False
+
                             }
                         },
                         'help': 'command for downloading a blueprint from the management server',
@@ -338,7 +338,7 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'type': str,
                                 'help': 'The output file path of the snapshot to be downloaded',
                                 'dest': 'output',
-                                'required': False
+
                             }
                         },
                         'help': 'Download a snapshot from the management server',
@@ -412,7 +412,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                             '-i,--inputs': {
                                 'metavar': 'INPUTS',
                                 'dest': 'inputs',
-                                'required': False,
                                 'help': 'Inputs file/string for the deployment creation ({0})'
                                     .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             }
@@ -519,7 +518,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'dest': 'parameters',
                                 'default': {},
                                 'type': str,
-                                'required': False,
                                 'help': 'Parameters for the workflow execution ({0})'
                                     .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             },
@@ -535,7 +533,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'dest': 'timeout',
                                 'metavar': 'TIMEOUT',
                                 'type': int,
-                                'required': False,
                                 'default': 900,
                                 'help': 'Operation timeout in seconds (The execution itself will keep '
                                         'going, it is the CLI that will stop waiting for it to terminate)'
@@ -628,7 +625,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                         'deployment ID'),
                             '--node-name': {
                                 'dest': 'node_name',
-                                'required': False,
                                 'help': 'Filter node instances according to the node name'
                             }
                         },
@@ -697,7 +693,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                             '-i,--inputs': {
                                 'metavar': 'INPUTS',
                                 'dest': 'inputs',
-                                'required': False,
                                 'help': 'Inputs file/string for the local workflow creation ({0})'
                                     .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             },
@@ -736,7 +731,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                             '-o,--output': {
                                 'metavar': 'REQUIREMENTS_OUTPUT',
                                 'dest': 'output',
-                                'required': False,
                                 'help': 'Path to a file that will hold the '
                                         'requirements of the blueprint'
                             }
@@ -756,7 +750,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'dest': 'parameters',
                                 'default': {},
                                 'type': str,
-                                'required': False,
                                 'help': 'Parameters for the workflow execution ({0})'
                                     .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                             },
@@ -806,7 +799,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                                 'dest': 'node_id',
                                 'default': None,
                                 'type': str,
-                                'required': False,
                                 'help': 'Only display node instances of this node id'
                             }
                         },
@@ -875,7 +867,6 @@ def parser_config():  # TODO remove all the `'required': False` lines
                     '-i,--inputs': {
                         'metavar': 'INPUTS',
                         'dest': 'inputs',
-                        'required': False,
                         'help': 'Inputs file/string for a manager blueprint ({0})'
                             .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                     },
