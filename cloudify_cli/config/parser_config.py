@@ -62,7 +62,6 @@ def deployment_id_argument(hlp):
     }
 
 
-
 # TODO consider adding `default` with value `inputs.yaml` or `inputs/inputs.yaml`
 # TODO suggest this in the api google group.
 def inputs_argument(hlp):
@@ -118,7 +117,6 @@ def snapshot_id_argument(hlp):
     }
 
 
-
 def parser_config():
     return {
         'description': 'Manages Cloudify in different Cloud Environments',
@@ -148,7 +146,12 @@ def parser_config():
                     '-l,--archive-location': argument_utils.make_optional(archive_location_argument()),
                     '-n,--blueprint-filename': blueprint_filename_argument(),
                     '-d,--deployment-id': deployment_id_argument(
-                            hlp='The id of the deployed blueprint')
+                            hlp='The id of the deployed blueprint'
+                    ),
+                    '-i,--inputs': inputs_argument(
+                        hlp='Inputs file/string for the deployment creation'
+                            '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                    )
 
                 },
                 'handler': cfy.install
