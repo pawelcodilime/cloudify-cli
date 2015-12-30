@@ -140,16 +140,7 @@ def parser_config():  # TODO remove all the `'required': False` lines
                             hlp='The id of the deployed blueprint')
 
                 },
-                'handler': cfy.blueprints.upload
-                # 'handler': cfy.blueprints.publish_archive
-                # TODO this should be an `install`-specific handler,
-                # TODO which should include, amongst others, the logic of
-                # TODO `cfy.blueprints.upload`
-
-                    # deployment-id (default value, dependent on dir name)
-                    # TODO remove `'type': 'str'` from deployment-id,
-                    # TODO use this argument, and check if this breaks
-                    # TODO something. Do this because Dan suggests that re
+                'handler': cfy.blueprints.install
                     # inputs
                     # workflow
                     # parameters
