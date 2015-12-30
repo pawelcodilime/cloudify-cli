@@ -14,7 +14,7 @@
 #    * limitations under the License.
 
 """
-Handles 'cfy local'
+Handles all commands that start with 'cfy local'
 """
 
 import json

@@ -15,7 +15,7 @@
 
 # TODO make all the command docstrings consistent
 """
-Handles all commands that start with 'cfy install'
+Handles 'cfy install'
 """
 
 from cloudify_cli.commands import blueprints
@@ -36,7 +36,6 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
         pass
 
     deployments.create(blueprint_id, deployment_id, inputs)
-    # TODO commit this wednesday morning!!!
 
 
 

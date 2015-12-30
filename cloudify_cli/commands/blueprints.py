@@ -16,6 +16,7 @@
 """
 Handles all commands that start with 'cfy blueprints'
 """
+
 import json
 
 import os
