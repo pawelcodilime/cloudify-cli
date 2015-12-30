@@ -62,6 +62,16 @@ def deployment_id_argument(hlp):
     }
 
 
+
+# TODO consider adding `default` with value `inputs.yaml` or `inputs/inputs.yaml`
+# TODO suggest this in the api google group.
+def inputs_argument(hlp):
+    return {
+        'dest': 'inputs',
+        'help': hlp
+    }
+
+
 def execution_id_argument(hlp):
     return {
         'dest': 'execution_id',
@@ -410,12 +420,10 @@ def parser_config():
                                 )
                             ),
                             '-b,--blueprint-id': blueprint_id_argument(),
-                            '-i,--inputs': {
-                                'metavar': 'INPUTS',
-                                'dest': 'inputs',
-                                'help': 'Inputs file/string for the deployment creation ({0})'
-                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                            }
+                            '-i,--inputs': inputs_argument(
+                                hlp='Inputs file/string for the deployment'
+                                    'creation ({0})'
+                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT))
                         },
                         'help': 'command for creating a deployment of a blueprint',
                         'handler': cfy.deployments.create
@@ -681,7 +689,7 @@ def parser_config():
                     },
 
                     'init': {
-                        'help': 'Init a local workflow execution environment in '
+                        'help': 'Init a local workflow execution environment in ' # TODO fix this typo (duplicate 'in')
                                 'in the current working directory',
                         'arguments': {
                             '-p,--blueprint-path': {
@@ -691,12 +699,11 @@ def parser_config():
                                 'required': True,
                                 'help': 'Path to a blueprint'
                             },
-                            '-i,--inputs': {
-                                'metavar': 'INPUTS',
-                                'dest': 'inputs',
-                                'help': 'Inputs file/string for the local workflow creation ({0})'
-                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                            },
+                            '-i,--inputs': inputs_argument(
+                                    hlp='Inputs file/string for the local '
+                                        'workflow creation ({0})'
+                                        .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+                            ),
                             '--install-plugins': {
                                 'dest': 'install_plugins_',
                                 'action': 'store_true',
@@ -865,12 +872,10 @@ def parser_config():
                         'type': str,
                         'help': 'Path to a manager blueprint'
                     },
-                    '-i,--inputs': {
-                        'metavar': 'INPUTS',
-                        'dest': 'inputs',
-                        'help': 'Inputs file/string for a manager blueprint ({0})'
+                    '-i,--inputs': inputs_argument(
+                        hlp='Inputs file/string for a manager blueprint ({0})'
                             .format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                    },
+                    ),
                     '--keep-up-on-failure': {
                         'dest': 'keep_up',
                         'action': 'store_true',
