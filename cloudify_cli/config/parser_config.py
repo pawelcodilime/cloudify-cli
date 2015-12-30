@@ -84,9 +84,7 @@ def execution_id_argument(hlp):
 
 def workflow_id_argument(hlp):
     return {
-        'metavar': 'WORKFLOW',
         'dest': 'workflow_id',
-        'type': str,
         'required': True,
         'help': hlp,
         'completer': completion_utils.workflow_id_completer
