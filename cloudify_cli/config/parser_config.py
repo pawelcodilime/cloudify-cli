@@ -140,7 +140,7 @@ def parser_config():
                             hlp='The id of the deployed blueprint')
 
                 },
-                'handler': cfy.blueprints.install
+                'handler': cfy.install
                     # inputs
                     # workflow
                     # parameters

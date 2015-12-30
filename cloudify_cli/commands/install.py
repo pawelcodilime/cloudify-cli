@@ -23,8 +23,7 @@ from cloudify_cli.commands import deployments
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
-            deployment_id, inputs, workflow, parameters,
-            allow_custom_parameters, timeout, include_logs):
+            deployment_id, inputs):
 
     # the following conditions are a simple patch. Not the final and real deal:
     if archive_location is None and blueprint_filename is None:
