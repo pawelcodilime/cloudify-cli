@@ -84,6 +84,7 @@ def execution_id_argument(hlp):
 
 def workflow_id_argument(hlp):
     return {
+        'metavar': 'WORKFLOW',
         'dest': 'workflow_id',
         'required': True,
         'help': hlp,
