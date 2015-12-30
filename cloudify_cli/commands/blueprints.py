@@ -57,13 +57,6 @@ def upload(blueprint_path, blueprint_id):
     management_ip = utils.get_management_server_ip()
     validate(blueprint_path)
 
-    # if the `blueprint-id` wasn't supplied, the blueprint id will be the name
-    # of the directory that contains the main blueprint of the the app.
-    if blueprint_id is None:
-        blueprint_id = os.path.basename(
-                os.path.dirname(
-                        os.path.abspath(blueprint_path.name)))
-
     logger.info('Uploading blueprint {0} to management server {1}'
                 .format(blueprint_path.name, management_ip))
     client = utils.get_rest_client(management_ip)

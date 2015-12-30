@@ -18,12 +18,21 @@
 Handles 'cfy install'
 """
 
+import os
+
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
             deployment_id, inputs):
+
+    # if the `blueprint-id` wasn't supplied, the blueprint id will be the name
+    # of the directory that contains the main blueprint of the the app.
+    if blueprint_id is None:
+        blueprint_id = os.path.basename(
+                os.path.dirname(
+                        os.path.abspath(blueprint_path.name)))
 
     # the following conditions are a simple patch. Not the final and real deal:
     if archive_location is None and blueprint_filename is None:
