@@ -54,18 +54,6 @@ def blueprint_filename_argument():
     }
 
 
-def snapshot_id_argument(hlp):
-    return {
-        'metavar': 'SNAPSHOT_ID',
-        'type': str,
-        'help': hlp,
-        'dest': 'snapshot_id',
-        'default': None,
-        'required': True,
-        'completer': completion_utils.objects_args_completer_maker('snapshots')
-    }
-
-
 def deployment_id_argument(hlp):
     return {
         'dest': 'deployment_id',
@@ -106,6 +94,19 @@ def plugin_id_argument(hlp):
         'required': True,
         'completer': completion_utils.objects_args_completer_maker('plugins')
     }
+
+
+def snapshot_id_argument(hlp):
+    return {
+        'metavar': 'SNAPSHOT_ID',
+        'type': str,
+        'help': hlp,
+        'dest': 'snapshot_id',
+        'default': None,
+        'required': True,
+        'completer': completion_utils.objects_args_completer_maker('snapshots')
+    }
+
 
 
 def parser_config():
