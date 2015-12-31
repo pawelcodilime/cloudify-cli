@@ -178,9 +178,11 @@ def parser_config():
                         'completer': completion_utils.yaml_files_completer
                     },
                     '-b,--blueprint-id': argument_utils.remove_completer(
-                            argument_utils.make_optional(blueprint_id_argument())
+                            argument_utils.make_optional(blueprint_id_argument(
+                            ))
                     ),
-                    '-l,--archive-location': argument_utils.make_optional(archive_location_argument()),
+                    '-l,--archive-location': argument_utils.make_optional(
+                            archive_location_argument()),
                     '-n,--blueprint-filename': blueprint_filename_argument(),
                     '-d,--deployment-id': deployment_id_argument(
                             hlp='The id of the deployed blueprint'
@@ -188,7 +190,7 @@ def parser_config():
                     '-i,--inputs': inputs_argument(
                         hlp='Inputs file/string for the deployment creation'
                             '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                    )
+                    ),
                     '-w,--workflow': argument_utils.make_required(
                             workflow_id_argument(
                                     hlp='The workflow to start (by default: '
