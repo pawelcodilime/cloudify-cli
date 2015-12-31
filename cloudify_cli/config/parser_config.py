@@ -92,6 +92,15 @@ def workflow_id_argument(hlp):
     }
 
 
+def parameters_argument():
+    return {
+        'dest': 'parameters',
+        'default': {},
+        'help': 'Parameters for the workflow execution ({0})'
+        .format(FORMAT_INPUT_AS_YAML_OR_DICT)
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -155,12 +164,12 @@ def parser_config():
                             workflow_id_argument(
                                     hlp='The workflow to start (by default: '
                                         '`install`')
-                    )
+                    ),
+                    '-p,--parameters': parameters_argument()
 
                 },
                 'handler': cfy.install
 
-                    # parameters
                     # allow-custom-parameters
                     # timeout
                     # include-logs
@@ -528,14 +537,7 @@ def parser_config():
                         'arguments': {
                             '-w,--workflow': workflow_id_argument(
                                 hlp='The workflow to start'),
-                            '-p,--parameters': {
-                                'metavar': 'PARAMETERS',
-                                'dest': 'parameters',
-                                'default': {},
-                                'type': str,
-                                'help': 'Parameters for the workflow execution ({0})'
-                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                            },
+                            '-p,--parameters': parameters_argument(),
                             '--allow-custom-parameters': {
                                 'dest': 'allow_custom_parameters',
                                 'action': 'store_true',
@@ -759,14 +761,7 @@ def parser_config():
                                     workflow_id_argument(
                                         hlp='The workflow to execute locally'))
                             ,
-                            '-p,--parameters': {
-                                'metavar': 'PARAMETERS',
-                                'dest': 'parameters',
-                                'default': {},
-                                'type': str,
-                                'help': 'Parameters for the workflow execution ({0})'
-                                    .format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                            },
+                            '-p,--parameters': parameters_argument(),
                             '--allow-custom-parameters': {
                                 'dest': 'allow_custom_parameters',
                                 'action': 'store_true',

@@ -54,7 +54,7 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
     if workflow is None:
         workflow = 'install'
 
-    
+
 
 
 
