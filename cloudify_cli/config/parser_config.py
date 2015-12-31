@@ -111,6 +111,17 @@ def allow_custom_parameters_argument():
     }
 
 
+def timeout_argument():
+    return {
+        'dest': 'timeout',
+        'type': int,
+        'default': 900,
+        'help': 'Operation timeout in seconds (The execution itself will keep '
+                'going, it is the CLI that will stop waiting for it to '
+                'terminate)'
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -178,11 +189,10 @@ def parser_config():
                     '-p,--parameters': parameters_argument(),
                     '--allow-custom-parameters':
                         allow_custom_parameters_argument(),
-
+                    '--timeout': timeout_argument(),
                 },
                 'handler': cfy.install
 
-                    # timeout
                     # include-logs
             },
             'plugins': {
@@ -551,14 +561,7 @@ def parser_config():
                             '-p,--parameters': parameters_argument(),
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
-                            '--timeout': {
-                                'dest': 'timeout',
-                                'metavar': 'TIMEOUT',
-                                'type': int,
-                                'default': 900,
-                                'help': 'Operation timeout in seconds (The execution itself will keep '
-                                        'going, it is the CLI that will stop waiting for it to terminate)'
-                            },
+                            '--timeout': timeout_argument(),
                             '-f,--force': {
                                 'dest': 'force',
                                 'action': 'store_true',
