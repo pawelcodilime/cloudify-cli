@@ -37,11 +37,9 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
     # the following conditions are a simple patch. Not the final and real deal:
     if archive_location is None and blueprint_filename is None:
         blueprints.upload(blueprint_path, blueprint_id)
-        pass
     else:
         blueprints.publish_archive(archive_location, blueprint_filename,
                                    blueprint_id)
-        pass
 
     # if `deployment-id` wasn't supplied, the deployment id will be the same
     # as the blueprint id.
