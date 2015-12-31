@@ -101,6 +101,16 @@ def parameters_argument():
     }
 
 
+def allow_custom_parameters_argument():
+    return {
+        'dest': 'allow_custom_parameters',
+        'action': 'store_true',
+        'help': 'Allow the passing of custom parameters ('
+                "parameters which were not defined in the workflow's schema "
+                'in the blueprint) to the execution'
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -165,12 +175,13 @@ def parser_config():
                                     hlp='The workflow to start (by default: '
                                         '`install`')
                     ),
-                    '-p,--parameters': parameters_argument()
+                    '-p,--parameters': parameters_argument(),
+                    '--allow-custom-parameters':
+                        allow_custom_parameters_argument(),
 
                 },
                 'handler': cfy.install
 
-                    # allow-custom-parameters
                     # timeout
                     # include-logs
             },
@@ -538,14 +549,8 @@ def parser_config():
                             '-w,--workflow': workflow_id_argument(
                                 hlp='The workflow to start'),
                             '-p,--parameters': parameters_argument(),
-                            '--allow-custom-parameters': {
-                                'dest': 'allow_custom_parameters',
-                                'action': 'store_true',
-                                'default': False,
-                                'help': 'Allow the passing of custom parameters ('
-                                        "parameters which were not defined in the workflow's schema in "
-                                        'the blueprint) to the execution'
-                            },
+                            '--allow-custom-parameters':
+                                allow_custom_parameters_argument(),
                             '--timeout': {
                                 'dest': 'timeout',
                                 'metavar': 'TIMEOUT',
@@ -762,14 +767,8 @@ def parser_config():
                                         hlp='The workflow to execute locally'))
                             ,
                             '-p,--parameters': parameters_argument(),
-                            '--allow-custom-parameters': {
-                                'dest': 'allow_custom_parameters',
-                                'action': 'store_true',
-                                'default': False,
-                                'help': 'Allow the passing of custom parameters ('
-                                        "parameters which were not defined in the workflow's schema in "
-                                        'the blueprint) to the execution'
-                            },
+                            '--allow-custom-parameters':
+                                allow_custom_parameters_argument(),
                             '--task-retries': {
                                 'metavar': 'TASK_RETRIES',
                                 'dest': 'task_retries',
