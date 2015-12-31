@@ -122,6 +122,14 @@ def timeout_argument():
     }
 
 
+def include_logs_argument():
+    return {
+        'dest': 'include_logs',
+        'action': 'store_true',
+        'help': 'Include logs in returned events'
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -180,7 +188,7 @@ def parser_config():
                     '-i,--inputs': inputs_argument(
                         hlp='Inputs file/string for the deployment creation'
                             '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                    ),
+                    )
                     '-w,--workflow': argument_utils.make_required(
                             workflow_id_argument(
                                     hlp='The workflow to start (by default: '
@@ -190,10 +198,9 @@ def parser_config():
                     '--allow-custom-parameters':
                         allow_custom_parameters_argument(),
                     '--timeout': timeout_argument(),
+                    '-l,--include-logs': include_logs_argument()
                 },
                 'handler': cfy.install
-
-                    # include-logs
             },
             'plugins': {
                 'help': "Manages Cloudify's plugins",
@@ -433,11 +440,7 @@ def parser_config():
                                     'agents for. If omitted, this will '
                                     'install agents for all deployments'
                             ),
-                            '-l,--include-logs': {
-                                'dest': 'include_logs',
-                                'action': 'store_true',
-                                'help': 'Include logs in returned events'
-                            }
+                            '-l,--include-logs': include_logs_argument()
                         },
                         'help':'command for installing agents on deployments',
                         'handler': cfy.agents.install
@@ -506,11 +509,7 @@ def parser_config():
                 'sub_commands': {
                     'list': {
                         'arguments': {
-                            '-l,--include-logs': {
-                                'dest': 'include_logs',
-                                'action': 'store_true',
-                                'help': 'Includes logs in the returned events'
-                            },
+                            '-l,--include-logs': include_logs_argument(),
                             '-e,--execution-id': execution_id_argument(
                                 hlp='The id of the execution to list events for'
                             ),
@@ -569,11 +568,7 @@ def parser_config():
                                 'help': 'Whether the workflow should execute even if there is an ongoing'
                                         ' execution for the provided deployment'
                             },
-                            '-l,--include-logs': {
-                                'dest': 'include_logs',
-                                'action': 'store_true',
-                                'help': 'Include logs in returned events'
-                            },
+                            '-l,--include-logs': include_logs_argument(),
                             '-d,--deployment-id': deployment_id_argument(
                                 hlp='The deployment id')
                         },
