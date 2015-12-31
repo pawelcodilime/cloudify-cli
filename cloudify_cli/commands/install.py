@@ -24,7 +24,8 @@ from cloudify_cli.commands import deployments
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
-            deployment_id, inputs, workflow, parameters):
+            deployment_id, inputs, workflow, parameters,
+            allow_custom_parameters):
 
     # if `blueprint-id` wasn't supplied, the blueprint id will be the name
     # of the directory that contains the main blueprint of the the app.
