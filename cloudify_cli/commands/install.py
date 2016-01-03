@@ -21,6 +21,7 @@ import os
 
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
+from cloudify_cli.commands import executions
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
@@ -51,6 +52,10 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
     # if `workflow` wasn't supplied, the `install` workflow will be used
     if workflow_id is None:
         workflow = 'install'
+
+    executions.start(workflow_id, deployment_id, timeout,
+                     allow_custom_parameters, include_logs, parameters,
+                     force=False)
 
 
 
