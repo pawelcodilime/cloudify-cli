@@ -196,11 +196,11 @@ def parser_config():
                                     hlp='The workflow to start (by default: '
                                         '`install`')
                     ),
-                    '-p,--parameters': parameters_argument(),
+                    '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
                     '--allow-custom-parameters':
                         allow_custom_parameters_argument(),
                     '--timeout': timeout_argument(),
-                    '-l,--include-logs': include_logs_argument()
+                    '--include-logs': include_logs_argument()  # TODO this originally also had `-l`, but I removed it as it conflicted with the `-l` of `archive location`
                 },
                 'handler': cfy.install
             },
