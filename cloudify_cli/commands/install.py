@@ -35,7 +35,7 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
                 os.path.dirname(
                         os.path.abspath(blueprint_path.name)))
 
-    # the following conditions are a simple patch. Not the final and real deal:
+    # TODO the following conditions are a simple patch. Not the final and real deal:
     if archive_location is None and blueprint_filename is None:
         blueprints.upload(blueprint_path, blueprint_id)
     else:
