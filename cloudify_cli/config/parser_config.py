@@ -191,7 +191,7 @@ def parser_config():
                         hlp='Inputs file/string for the deployment creation'
                             '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
                     ),
-                    '-w,--workflow': argument_utils.make_required(
+                    '-w,--workflow': argument_utils.make_optional(
                             workflow_id_argument(
                                     hlp='The workflow to start (by default: '
                                         '`install`')
