@@ -51,7 +51,7 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
 
     # if `workflow` wasn't supplied, the `install` workflow will be used
     if workflow_id is None:
-        workflow = 'install'
+        workflow_id = 'install'
 
     # although the `install` command does not need the `force` argument,
     # we are using the `start` handler as a part of it.
