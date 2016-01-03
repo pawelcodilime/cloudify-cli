@@ -53,9 +53,14 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
     if workflow_id is None:
         workflow = 'install'
 
-    executions.start(workflow_id, deployment_id, timeout,
-                     allow_custom_parameters, include_logs, parameters,
-                     force=False)
+    # although the `install` command does not need the `force` argument,
+    # we are using the `start` handler as a part of it.
+    # as a result, we need to provide it with a `force` argument, which is
+    # defined below.
+    force = False
+
+    executions.start(workflow_id, deployment_id, timeout, force,
+                     allow_custom_parameters, include_logs, parameters)
 
 
 
