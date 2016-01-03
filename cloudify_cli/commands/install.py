@@ -24,7 +24,7 @@ from cloudify_cli.commands import deployments
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
-            deployment_id, inputs, workflow, parameters,
+            deployment_id, inputs, workflow_id, parameters,
             allow_custom_parameters, timeout, include_logs):
 
     # if `blueprint-id` wasn't supplied, the blueprint id will be the name
@@ -49,7 +49,7 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
     deployments.create(blueprint_id, deployment_id, inputs)
 
     # if `workflow` wasn't supplied, the `install` workflow will be used
-    if workflow is None:
+    if workflow_id is None:
         workflow = 'install'
 
 
