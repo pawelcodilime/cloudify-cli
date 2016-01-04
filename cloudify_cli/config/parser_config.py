@@ -25,6 +25,12 @@ from cloudify_cli.constants import DEFAULT_REST_PORT
 FORMAT_INPUT_AS_YAML_OR_DICT = 'formatted as YAML or as "key1=value1;key2=value2"'
 
 
+def blueprint_path_argument(hlp):
+    return {
+
+    }
+
+
 def blueprint_id_argument():
     return {
         'type': str,
