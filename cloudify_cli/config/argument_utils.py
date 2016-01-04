@@ -45,3 +45,9 @@ def remove_metavar(argument):
     argument_copy = copy.copy(argument)
     del argument_copy['metavar']
     return argument_copy
+
+
+def set_default(argument, value):
+    argument_copy = copy.copy(argument)
+    argument_copy['default'] = value
+    return argument_copy
