@@ -701,11 +701,21 @@ def parser_config():
                             '-p,--blueprint-path':
                                 local_blueprint_path_argument(
                                         hlp='Path to a blueprint'
-                                )
-                            # inputs
-                            # workflow
-                            # parameters
-                            # allow-custom-parameters
+                                ),
+                            '-i,--inputs': inputs_argument(
+                                    hlp='Inputs file/string for the '
+                                        'deployment creation({0})'.
+                                        format(FORMAT_INPUT_AS_YAML_OR_DICT)),
+                            '-w,--workflow': argument_utils.make_optional(
+                                    workflow_id_argument(
+                                            hlp='The workflow to start '
+                                                '(by default: `install`')),
+                            '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
+                            '--allow-custom-parameters':
+                                allow_custom_parameters_argument(),
+
+                            
+
                             # task-retries
                             # task-retry-interval
                             # task-thread-pool-size
