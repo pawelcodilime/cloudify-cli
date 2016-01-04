@@ -167,6 +167,15 @@ def task_retry_interval_argument(default_value):
     }
 
 
+def task_thread_pool_size_argument():
+    return {
+        'dest': 'task_thread_pool_size',
+        'default': 1,
+        'type': int,
+        'help': 'The size of the thread pool size to execute tasks in'
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -734,7 +743,8 @@ def parser_config():
                             '--task-retries': task_retries_argument(0),
                             '--task-retry-interval':
                                 task_retry_interval_argument(1),
-                            # task-thread-pool-size
+                            '--task-thread-pool-size':
+                                task_thread_pool_size_argument()
                         }
                     },
 
@@ -800,13 +810,8 @@ def parser_config():
                             '--task-retries': task_retries_argument(0),
                             '--task-retry-interval':
                                 task_retry_interval_argument(1),
-                            '--task-thread-pool-size': {
-                                'metavar': 'TASK_THREAD_POOL_SIZE',
-                                'dest': 'task_thread_pool_size',
-                                'default': 1,
-                                'type': int,
-                                'help': 'The size of the thread pool size to execute tasks in'
-                            }
+                            '--task-thread-pool-size':
+                                task_thread_pool_size_argument()
                         },
                         'handler': cfy.local.execute
                     },
@@ -915,13 +920,8 @@ def parser_config():
                     },
                     '--task-retries': task_retries_argument(5),
                     '--task-retry-interval': task_retry_interval_argument(30),
-                    '--task-thread-pool-size': {
-                        'metavar': 'TASK_THREAD_POOL_SIZE',
-                        'dest': 'task_thread_pool_size',
-                        'default': 1,
-                        'type': int,
-                        'help': 'The size of the thread pool size to execute tasks in'
-                    }
+                    '--task-thread-pool-size':
+                        task_thread_pool_size_argument()
                 },
                 'handler': cfy.bootstrap
             },
@@ -955,13 +955,8 @@ def parser_config():
                     },
                     '--task-retries': task_retries_argument(5),
                     '--task-retry-interval': task_retry_interval_argument(30),
-                    '--task-thread-pool-size': {
-                        'metavar': 'TASK_THREAD_POOL_SIZE',
-                        'dest': 'task_thread_pool_size',
-                        'default': 1,
-                        'type': int,
-                        'help': 'The size of the thread pool size to execute tasks in'
-                    },
+                    '--task-thread-pool-size':
+                        task_thread_pool_size_argument(),
                     '-s,--snapshot-path': {
                         'metavar': 'SNAPSHOT_PATH',
                         'dest': 'snapshot_path',
