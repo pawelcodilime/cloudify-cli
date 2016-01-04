@@ -33,6 +33,14 @@ _NAME = 'local'
 _STORAGE_DIR_NAME = 'local-storage'
 
 
+def install(blueprint_path, inputs, install_plugins_,workflow_id, parameters,
+            allow_custom_parameters, task_retries, task_retry_interval,
+            task_thread_pool_size
+            ):
+    pass
+
+
+
 def init(blueprint_path,
          inputs,
          install_plugins_):

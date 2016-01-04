@@ -745,7 +745,8 @@ def parser_config():
                                 task_retry_interval_argument(1),
                             '--task-thread-pool-size':
                                 task_thread_pool_size_argument()
-                        }
+                        },
+                        'handler': cfy.local.install
                     },
 
                     'init': {
