@@ -728,10 +728,12 @@ def parser_config():
                     'install': {
                         'help': '',  # TODO add help text
                         'arguments': {
-                            '-p,--blueprint-path':
-                                local_blueprint_path_argument(
-                                        hlp='Path to a blueprint'
-                                ),
+                            '-p,--blueprint-path': argument_utils.set_default(
+                                    manager_blueprint_path_argument(
+                                            hlp="Path to the application's"
+                                                "blueprint file"
+                                    ), 'blueprint.yaml'
+                            ),
                             '-i,--inputs': inputs_argument(
                                     hlp='Inputs file/string for the '
                                         'deployment creation({0})'.
