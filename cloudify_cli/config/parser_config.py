@@ -25,13 +25,23 @@ from cloudify_cli.constants import DEFAULT_REST_PORT
 FORMAT_INPUT_AS_YAML_OR_DICT = 'formatted as YAML or as "key1=value1;key2=value2"'
 
 
-def blueprint_path_argument(hlp):
+def manager_blueprint_path_argument(hlp):
     return {
+        'metavar': 'BLUEPRINT_FILE',
         'dest': 'blueprint_path',
+        'type': argparse.FileType,
         'required': True,
         'help': hlp,
         'completer': completion_utils.yaml_files_completer
     }
+
+
+def local_blueprint_path_argument(hlp):
+    return argument_utils.remove_completer(
+        argument_utils.remove_metavar(
+            argument_utils.remove_type(manager_blueprint_path_argument(hlp))
+        )
+    )
 
 
 def blueprint_id_argument():
@@ -179,13 +189,9 @@ def parser_config():
                     # TODO make {blueprint-path, blueprint-id} and
                     # TODO {archive-location, blueprint-filename}
                     # TODO mutually exclusive groups
-                    '-p,--blueprint-path': {
-                        'dest': 'blueprint_path',
-                        'type': argparse.FileType(),
-                        'default': "blueprint.yaml",
-                        'help': "Path to the application's blueprint file",
-                        'completer': completion_utils.yaml_files_completer
-                    },
+                    '-p,--blueprint-path': manager_blueprint_path_argument(
+                            hlp="Path to the application's blueprint file"
+                    ),
                     '-b,--blueprint-id': argument_utils.remove_completer(
                             argument_utils.make_optional(blueprint_id_argument(
                             ))
@@ -273,14 +279,11 @@ def parser_config():
                 'sub_commands': {
                     'upload': {
                         'arguments': {
-                            '-p,--blueprint-path': {
-                                'metavar': 'BLUEPRINT_FILE',
-                                'dest': 'blueprint_path',
-                                'type': argparse.FileType(),
-                                'required': True,
-                                'help': "Path to the application's blueprint file",
-                                'completer': completion_utils.yaml_files_completer
-                            },
+                            '-p,--blueprint-path':
+                                manager_blueprint_path_argument(
+                                        hlp="Path to the application's "
+                                            "blueprint file"
+                                ),
                             '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
                         },
                         'help': 'command for uploading a blueprint to the management server',
@@ -325,14 +328,11 @@ def parser_config():
                     },
                     'validate': {
                         'arguments': {
-                            '-p,--blueprint-path': {
-                                'metavar': 'BLUEPRINT_FILE',
-                                'type': argparse.FileType(),
-                                'dest': 'blueprint_path',
-                                'required': True,
-                                'help': "Path to the application's blueprint file",
-                                'completer': completion_utils.yaml_files_completer
-                            }
+                            '-p,--blueprint-path':
+                                manager_blueprint_path_argument(
+                                        hlp="Path to the application's "
+                                            "blueprint file"
+                                ),
                         },
                         'help': 'command for validating a blueprint',
                         'handler': cfy.blueprints.validate
@@ -698,8 +698,10 @@ def parser_config():
                     'install': {
                         'help': '',  # TODO add help text
                         'arguments': {
-
-                            # blueprint-path (default value, blueprint.yaml)
+                            '-p,--blueprint-path':
+                                local_blueprint_path_argument(
+                                        hlp='Path to a blueprint'
+                                )
                             # inputs
                             # workflow
                             # parameters
@@ -714,13 +716,10 @@ def parser_config():
                         'help': 'Init a local workflow execution environment '
                                 'in the current working directory',
                         'arguments': {
-                            '-p,--blueprint-path': {
-                                'dest': 'blueprint_path',
-                                'metavar': 'BLUEPRINT_PATH',
-                                'type': str,
-                                'required': True,
-                                'help': 'Path to a blueprint'
-                            },
+                            '-p,--blueprint-path':
+                                local_blueprint_path_argument(
+                                        hlp='Path to a blueprint'
+                                ),
                             '-i,--inputs': inputs_argument(
                                     hlp='Inputs file/string for the local '
                                         'workflow creation ({0})'
@@ -738,26 +737,20 @@ def parser_config():
                     'install-plugins': {
                         'help': 'Installs the necessary plugins for a given blueprint',
                         'arguments': {
-                            '-p,--blueprint-path': {
-                                'dest': 'blueprint_path',
-                                'metavar': 'BLUEPRINT_PATH',
-                                'type': str,
-                                'required': True,
-                                'help': 'Path to a blueprint'
-                            }
+                            '-p,--blueprint-path':
+                                local_blueprint_path_argument(
+                                        hlp='Path to a blueprint'
+                                ),
                         },
                         'handler': cfy.local.install_plugins
                     },
                     'create-requirements': {
                         'help': 'Creates a PIP compliant requirements file for the given blueprint',
                         'arguments': {
-                            '-p,--blueprint-path': {
-                                'dest': 'blueprint_path',
-                                'metavar': 'BLUEPRINT_PATH',
-                                'type': str,
-                                'required': True,
-                                'help': 'Path to a blueprint'
-                            },
+                            '-p,--blueprint-path':
+                                local_blueprint_path_argument(
+                                        hlp='Path to a blueprint'
+                                ),
                             '-o,--output': {
                                 'metavar': 'REQUIREMENTS_OUTPUT',
                                 'dest': 'output',
@@ -874,13 +867,10 @@ def parser_config():
             'bootstrap': {
                 'help': 'Bootstrap a Cloudify management environment',
                 'arguments': {
-                    '-p,--blueprint-path': {
-                        'dest': 'blueprint_path',
-                        'metavar': 'BLUEPRINT_PATH',
-                        'required': True,
-                        'type': str,
-                        'help': 'Path to a manager blueprint'
-                    },
+                    '-p,--blueprint-path':
+                        local_blueprint_path_argument(
+                                hlp='Path to a blueprint'
+                        ),
                     '-i,--inputs': inputs_argument(
                         hlp='Inputs file/string for a manager blueprint ({0})'
                             .format(FORMAT_INPUT_AS_YAML_OR_DICT)
