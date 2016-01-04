@@ -39,3 +39,9 @@ def set_type(argument, t):
     argument_copy = copy.copy(argument)
     argument_copy['type'] = t
     return argument_copy
+
+
+def set_metavar(argument, metavar):
+    argument_copy = copy.copy(argument)
+    argument_copy['metavar'] = metavar
+    return argument_copy
