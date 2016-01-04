@@ -149,6 +149,15 @@ def include_logs_argument():
     }
 
 
+def task_retries_argument(default_value):
+    return {
+        'dest': 'task_retries',
+        'default': default_value,
+        'type': int,
+        'help': 'How many times should a task be retried in case it fails'
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -714,7 +723,7 @@ def parser_config():
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
 
-                            
+
 
                             # task-retries
                             # task-retry-interval
@@ -781,14 +790,7 @@ def parser_config():
                             '-p,--parameters': parameters_argument(),
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
-                            '--task-retries': {
-                                'metavar': 'TASK_RETRIES',
-                                'dest': 'task_retries',
-                                'default': 0,
-                                'type': int,
-                                'help': 'How many times should a task be retried in case '
-                                        'it fails'
-                            },
+                            '--task-retries': task_retries_argument(0),
                             '--task-retry-interval': {
                                 'metavar': 'TASK_RETRY_INTERVAL',
                                 'dest': 'task_retry_interval',
@@ -909,14 +911,7 @@ def parser_config():
                         'default': False,
                         'help': 'Install necessary plugins of the given blueprint.'
                     },
-                    '--task-retries': {
-                        'metavar': 'TASK_RETRIES',
-                        'dest': 'task_retries',
-                        'default': 5,
-                        'type': int,
-                        'help': 'How many times should a task be retried in case '
-                                'it fails'
-                    },
+                    '--task-retries': task_retries_argument(5),
                     '--task-retry-interval': {
                         'metavar': 'TASK_RETRY_INTERVAL',
                         'dest': 'task_retry_interval',
@@ -962,14 +957,7 @@ def parser_config():
                         'default': False,
                         'help': 'Confirmation for the recovery request'
                     },
-                    '--task-retries': {
-                        'metavar': 'TASK_RETRIES',
-                        'dest': 'task_retries',
-                        'default': 5,
-                        'type': int,
-                        'help': 'How many times should a task be retried '
-                                'in case it fails.'
-                    },
+                    '--task-retries': task_retries_argument(5),
                     '--task-retry-interval': {
                         'metavar': 'TASK_RETRY_INTERVAL',
                         'dest': 'task_retry_interval',
