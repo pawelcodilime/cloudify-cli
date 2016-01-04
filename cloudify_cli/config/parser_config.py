@@ -46,7 +46,6 @@ def local_blueprint_path_argument(hlp):
 
 def blueprint_id_argument():
     return {
-        'type': str,
         'help': 'The id of the blueprint',
         'dest': 'blueprint_id',
         'default': None,
@@ -58,7 +57,6 @@ def blueprint_id_argument():
 def archive_location_argument():
     return {
         'dest': 'archive_location',
-        'type': str,
         'required': True,
         'help': "Path or URL to the application's blueprint archive file",
         'completer': completion_utils.archive_files_completer
@@ -68,7 +66,6 @@ def archive_location_argument():
 def blueprint_filename_argument():
     return {
         'dest': 'blueprint_filename',
-        'type': str,
         'help': "Name of the archive's main blueprint file",
     }
 
@@ -94,7 +91,6 @@ def execution_id_argument(hlp):
     return {
         'dest': 'execution_id',
         'metavar': 'EXECUTION_ID',
-        'type': str,
         'required': True,
         'help': hlp,
         'completer': completion_utils.objects_args_completer_maker('executions')
@@ -188,7 +184,6 @@ def task_thread_pool_size_argument():
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
-        'type': str,
         'help': hlp,
         'dest': 'plugin_id',
         'default': None,
@@ -200,7 +195,6 @@ def plugin_id_argument(hlp):
 def snapshot_id_argument(hlp):
     return {
         'metavar': 'SNAPSHOT_ID',
-        'type': str,
         'help': hlp,
         'dest': 'snapshot_id',
         'default': None,
@@ -291,7 +285,6 @@ def parser_config():
                                 hlp='The plugin id'),
                             '-o,--output': {
                                 'metavar': 'OUTPUT',
-                                'type': str,
                                 'help': 'The output file path of the plugin to be downloaded',
                                 'dest': 'output',
 
@@ -346,7 +339,6 @@ def parser_config():
                             '-b,--blueprint-id': blueprint_id_argument(),
                             '-o,--output': {
                                 'metavar': 'OUTPUT',
-                                'type': str,
                                 'help': 'The output file path of the blueprint to be downloaded',
                                 'dest': 'output',
 
@@ -441,7 +433,6 @@ def parser_config():
                             '-s,--snapshot-id': snapshot_id_argument('The id of the snapshot'),
                             '-o,--output': {
                                 'metavar': 'OUTPUT',
-                                'type': str,
                                 'help': 'The output file path of the snapshot to be downloaded',
                                 'dest': 'output',
 
@@ -843,7 +834,6 @@ def parser_config():
                                 'metavar': 'NODE_ID',
                                 'dest': 'node_id',
                                 'default': None,
-                                'type': str,
                                 'help': 'Only display node instances of this node id'
                             }
                         },
@@ -860,7 +850,6 @@ def parser_config():
                 'arguments': {
                     '-t,--task': {
                         'metavar': 'TASK',
-                        'type': str,
                         'dest': 'task',
                         'help': 'name of fabric task to run',
                         'completer': completion_utils.dev_task_name_completer
@@ -869,13 +858,11 @@ def parser_config():
                         'nargs': argparse.REMAINDER,
                         'metavar': 'ARGS',
                         'dest': 'args',
-                        'type': str,
                         'help': 'arguments for the fabric task'
                     },
                     '-p,--tasks-file': {
                         'dest': 'tasks_file',
                         'metavar': 'TASKS_FILE',
-                        'type': str,
                         'help': 'Path to a tasks file',
                     }
                 },
@@ -888,7 +875,6 @@ def parser_config():
                         'dest': 'ssh_command',
                         'metavar': 'COMMAND',
                         'default': None,
-                        'type': str,
                         'help': 'Execute command over SSH'
                     },
                     '-p,--plain': {
@@ -983,7 +969,6 @@ def parser_config():
                 'arguments': {
                     '-t,--management-ip': {
                         'metavar': 'MANAGEMENT_IP',
-                        'type': str,
                         'help': 'The cloudify management server ip address',
                         'dest': 'management_ip',
                         'required': True
