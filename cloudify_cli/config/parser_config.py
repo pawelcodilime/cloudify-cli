@@ -89,7 +89,6 @@ def inputs_argument(hlp):
 def execution_id_argument(hlp):
     return {
         'dest': 'execution_id',
-        'metavar': 'EXECUTION_ID',
         'required': True,
         'help': hlp,
         'completer': completion_utils.objects_args_completer_maker('executions')
@@ -182,7 +181,6 @@ def task_thread_pool_size_argument():
 
 def plugin_id_argument(hlp):
     return {
-        'metavar': 'PLUGIN_ID',
         'help': hlp,
         'dest': 'plugin_id',
         'required': True,
@@ -192,7 +190,6 @@ def plugin_id_argument(hlp):
 
 def snapshot_id_argument(hlp):
     return {
-        'metavar': 'SNAPSHOT_ID',
         'help': hlp,
         'dest': 'snapshot_id',
         'required': True,
@@ -281,7 +278,6 @@ def parser_config():
                             '-p,--plugin-id': plugin_id_argument(
                                 hlp='The plugin id'),
                             '-o,--output': {
-                                'metavar': 'OUTPUT',
                                 'help': 'The output file path of the plugin to be downloaded',
                                 'dest': 'output',
 
@@ -335,7 +331,6 @@ def parser_config():
                         'arguments': {
                             '-b,--blueprint-id': blueprint_id_argument(),
                             '-o,--output': {
-                                'metavar': 'OUTPUT',
                                 'help': 'The output file path of the blueprint to be downloaded',
                                 'dest': 'output',
 
@@ -429,7 +424,6 @@ def parser_config():
                         'arguments': {
                             '-s,--snapshot-id': snapshot_id_argument('The id of the snapshot'),
                             '-o,--output': {
-                                'metavar': 'OUTPUT',
                                 'help': 'The output file path of the snapshot to be downloaded',
                                 'dest': 'output',
 
@@ -828,7 +822,6 @@ def parser_config():
                         'help': 'Display node instances',
                         'arguments': {
                             '--node-id': {
-                                'metavar': 'NODE_ID',
                                 'dest': 'node_id',
                                 'help': 'Only display node instances of this node id'
                             }
@@ -845,20 +838,17 @@ def parser_config():
                 'help': 'Executes fabric tasks on the management machine',
                 'arguments': {
                     '-t,--task': {
-                        'metavar': 'TASK',
                         'dest': 'task',
                         'help': 'name of fabric task to run',
                         'completer': completion_utils.dev_task_name_completer
                     },
                     '-a,--args': {
                         'nargs': argparse.REMAINDER,
-                        'metavar': 'ARGS',
                         'dest': 'args',
                         'help': 'arguments for the fabric task'
                     },
                     '-p,--tasks-file': {
                         'dest': 'tasks_file',
-                        'metavar': 'TASKS_FILE',
                         'help': 'Path to a tasks file',
                     }
                 },
@@ -950,7 +940,6 @@ def parser_config():
                     '--task-thread-pool-size':
                         task_thread_pool_size_argument(),
                     '-s,--snapshot-path': {
-                        'metavar': 'SNAPSHOT_PATH',
                         'dest': 'snapshot_path',
                         'type': argparse.FileType(),
                         'help': 'Path to the snapshot that will be restored'
@@ -962,7 +951,6 @@ def parser_config():
                 'help': 'Use/switch to the specified management server',
                 'arguments': {
                     '-t,--management-ip': {
-                        'metavar': 'MANAGEMENT_IP',
                         'help': 'The cloudify management server ip address',
                         'dest': 'management_ip',
                         'required': True
