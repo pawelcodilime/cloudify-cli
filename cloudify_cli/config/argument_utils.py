@@ -35,13 +35,13 @@ def make_required(argument):
     return argument_copy
 
 
-def set_type(argument, t):
+def remove_type(argument):
     argument_copy = copy.copy(argument)
-    argument_copy['type'] = t
+    del argument_copy['type']
     return argument_copy
 
 
-def set_metavar(argument, metavar):
+def remove_metavar(argument):
     argument_copy = copy.copy(argument)
-    argument_copy['metavar'] = metavar
+    del argument_copy['metavar']
     return argument_copy
