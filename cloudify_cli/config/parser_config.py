@@ -742,7 +742,7 @@ def parser_config():
                             '-p,--blueprint-path':
                                 argument_utils.make_optional(
                                         argument_utils.set_default(
-                                            manager_blueprint_path_argument(
+                                            local_blueprint_path_argument(
                                                 hlp="Path to the application's"
                                                     "blueprint file"
                                             ), 'blueprint.yaml'
