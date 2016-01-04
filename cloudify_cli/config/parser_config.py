@@ -158,6 +158,15 @@ def task_retries_argument(default_value):
     }
 
 
+def task_retry_interval_argument(default_value):
+    return {
+        'dest': 'task_retry_interval',
+        'default': default_value,
+        'type': int,
+        'help': 'How many seconds to wait before each task is retried'
+    }
+
+
 def plugin_id_argument(hlp):
     return {
         'metavar': 'PLUGIN_ID',
@@ -722,11 +731,9 @@ def parser_config():
                             '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
-
-
-
-                            # task-retries
-                            # task-retry-interval
+                            '--task-retries': task_retries_argument(0),
+                            '--task-retry-interval':
+                                task_retry_interval_argument(1),
                             # task-thread-pool-size
                         }
                     },
@@ -791,13 +798,8 @@ def parser_config():
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
                             '--task-retries': task_retries_argument(0),
-                            '--task-retry-interval': {
-                                'metavar': 'TASK_RETRY_INTERVAL',
-                                'dest': 'task_retry_interval',
-                                'default': 1,
-                                'type': int,
-                                'help': 'How many seconds to wait before each task is retried'
-                            },
+                            '--task-retry-interval':
+                                task_retry_interval_argument(1),
                             '--task-thread-pool-size': {
                                 'metavar': 'TASK_THREAD_POOL_SIZE',
                                 'dest': 'task_thread_pool_size',
@@ -912,13 +914,7 @@ def parser_config():
                         'help': 'Install necessary plugins of the given blueprint.'
                     },
                     '--task-retries': task_retries_argument(5),
-                    '--task-retry-interval': {
-                        'metavar': 'TASK_RETRY_INTERVAL',
-                        'dest': 'task_retry_interval',
-                        'default': 30,
-                        'type': int,
-                        'help': 'How many seconds to wait before each task is retried'
-                    },
+                    '--task-retry-interval': task_retry_interval_argument(30),
                     '--task-thread-pool-size': {
                         'metavar': 'TASK_THREAD_POOL_SIZE',
                         'dest': 'task_thread_pool_size',
@@ -958,13 +954,7 @@ def parser_config():
                         'help': 'Confirmation for the recovery request'
                     },
                     '--task-retries': task_retries_argument(5),
-                    '--task-retry-interval': {
-                        'metavar': 'TASK_RETRY_INTERVAL',
-                        'dest': 'task_retry_interval',
-                        'default': 30,
-                        'type': int,
-                        'help': 'How many seconds to wait before each task is retried.'
-                    },
+                    '--task-retry-interval': task_retry_interval_argument(30),
                     '--task-thread-pool-size': {
                         'metavar': 'TASK_THREAD_POOL_SIZE',
                         'dest': 'task_thread_pool_size',
