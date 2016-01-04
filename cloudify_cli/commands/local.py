@@ -38,8 +38,10 @@ def install(blueprint_path, inputs, install_plugins_, workflow_id, parameters,
             task_thread_pool_size
             ):
     init(blueprint_path, inputs, install_plugins_)
+
     if workflow_id is None:
         workflow_id = 'install'
+
     execute(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
 

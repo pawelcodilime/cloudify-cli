@@ -149,6 +149,15 @@ def include_logs_argument():
     }
 
 
+def install_plugins_argument():
+    return {
+        'dest': 'install_plugins_',
+        'action': 'store_true',
+        'default': False,
+        'help': 'Install necessary plugins of the given blueprint.'
+    }
+
+
 def task_retries_argument(default_value):
     return {
         'dest': 'task_retries',
@@ -743,6 +752,7 @@ def parser_config():
                                     hlp='Inputs file/string for the '
                                         'deployment creation({0})'.
                                         format(FORMAT_INPUT_AS_YAML_OR_DICT)),
+                            '--install-plugins': install_plugins_argument(),
                             '-w,--workflow': argument_utils.make_optional(
                                     workflow_id_argument(
                                             hlp='The workflow to start '
@@ -771,13 +781,8 @@ def parser_config():
                                     hlp='Inputs file/string for the local '
                                         'workflow creation ({0})'
                                         .format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                            ),
-                            '--install-plugins': {
-                                'dest': 'install_plugins_',
-                                'action': 'store_true',
-                                'default': False,
-                                'help': 'Install necessary plugins of the given blueprint.'
-                            }
+                                ),
+                            '--install-plugins': install_plugins_argument(),
                         },
                         'handler': cfy.local.init
                     },
@@ -923,12 +928,7 @@ def parser_config():
                         'help': 'Run validations without'
                                 ' actually performing the bootstrap process.'
                     },
-                    '--install-plugins': {
-                        'dest': 'install_plugins',
-                        'action': 'store_true',
-                        'default': False,
-                        'help': 'Install necessary plugins of the given blueprint.'
-                    },
+                    '--install-plugins': install_plugins_argument(),
                     '--task-retries': task_retries_argument(5),
                     '--task-retry-interval': task_retry_interval_argument(30),
                     '--task-thread-pool-size':
