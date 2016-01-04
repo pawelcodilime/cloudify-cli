@@ -81,7 +81,7 @@ def deployment_id_argument(hlp):
     }
 
 
-# TODO consider adding `default` with value `inputs.yaml` or `inputs/inputs.yaml`
+# TODO consider adding `default` with value `inputs.yaml` or `inputs/inputs.yaml` (is is like that in nodecellar)
 # TODO suggest this in the api google group.
 def inputs_argument(hlp):
     return {
@@ -216,11 +216,13 @@ def parser_config():
                     # TODO make {blueprint-path, blueprint-id} and
                     # TODO {archive-location, blueprint-filename}
                     # TODO mutually exclusive groups
-                    '-p,--blueprint-path': argument_utils.set_default(
-                            manager_blueprint_path_argument(
-                                    hlp="Path to the application's blueprint "
-                                        "file"
-                            ), 'blueprint.yaml'
+                    '-p,--blueprint-path': argument_utils.make_optional(
+                            argument_utils.set_default(
+                                    manager_blueprint_path_argument(
+                                            hlp="Path to the application's"
+                                                "blueprint file"
+                                    ), 'blueprint.yaml'
+                            )
                     ),
                     '-b,--blueprint-id': argument_utils.remove_completer(
                             argument_utils.make_optional(blueprint_id_argument(
@@ -728,12 +730,15 @@ def parser_config():
                     'install': {
                         'help': '',  # TODO add help text
                         'arguments': {
-                            '-p,--blueprint-path': argument_utils.set_default(
-                                    manager_blueprint_path_argument(
-                                            hlp="Path to the application's"
-                                                "blueprint file"
-                                    ), 'blueprint.yaml'
-                            ),
+                            '-p,--blueprint-path':
+                                argument_utils.make_optional(
+                                        argument_utils.set_default(
+                                            manager_blueprint_path_argument(
+                                                hlp="Path to the application's"
+                                                    "blueprint file"
+                                            ), 'blueprint.yaml'
+                                        )
+                                ),
                             '-i,--inputs': inputs_argument(
                                     hlp='Inputs file/string for the '
                                         'deployment creation({0})'.
