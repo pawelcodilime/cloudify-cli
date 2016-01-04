@@ -48,7 +48,6 @@ def blueprint_id_argument():
     return {
         'help': 'The id of the blueprint',
         'dest': 'blueprint_id',
-        'default': None,
         'required': True,
         'completer': completion_utils.objects_args_completer_maker('blueprints')
     }
@@ -186,7 +185,6 @@ def plugin_id_argument(hlp):
         'metavar': 'PLUGIN_ID',
         'help': hlp,
         'dest': 'plugin_id',
-        'default': None,
         'required': True,
         'completer': completion_utils.objects_args_completer_maker('plugins')
     }
@@ -197,7 +195,6 @@ def snapshot_id_argument(hlp):
         'metavar': 'SNAPSHOT_ID',
         'help': hlp,
         'dest': 'snapshot_id',
-        'default': None,
         'required': True,
         'completer': completion_utils.objects_args_completer_maker('snapshots')
     }
@@ -833,7 +830,6 @@ def parser_config():
                             '--node-id': {
                                 'metavar': 'NODE_ID',
                                 'dest': 'node_id',
-                                'default': None,
                                 'help': 'Only display node instances of this node id'
                             }
                         },
@@ -874,7 +870,6 @@ def parser_config():
                     '-c,--command': {
                         'dest': 'ssh_command',
                         'metavar': 'COMMAND',
-                        'default': None,
                         'help': 'Execute command over SSH'
                     },
                     '-p,--plain': {
@@ -957,7 +952,6 @@ def parser_config():
                     '-s,--snapshot-path': {
                         'metavar': 'SNAPSHOT_PATH',
                         'dest': 'snapshot_path',
-                        'default': None,
                         'type': argparse.FileType(),
                         'help': 'Path to the snapshot that will be restored'
                     }
