@@ -19,6 +19,7 @@ Handles 'cfy install'
 
 import os
 
+# from cloudify_cli import commands as cfy
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
 from cloudify_cli.commands import executions
@@ -49,12 +50,8 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
 
     deployments.create(blueprint_id, deployment_id, inputs)
 
-    # if `workflow` wasn't supplied, the `install` workflow will be used
-    if workflow_id is None:
-        workflow_id = 'install'
-
     # although the `install` command does not need the `force` argument,
-    # we are using the `start` handler as a part of it.
+    # we are using the `executions start` handler as a part of it.
     # as a result, we need to provide it with a `force` argument, which is
     # defined below.
     force = False

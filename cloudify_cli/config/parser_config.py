@@ -29,7 +29,7 @@ def manager_blueprint_path_argument(hlp):
     return {
         'metavar': 'BLUEPRINT_FILE',
         'dest': 'blueprint_path',
-        'type': argparse.FileType,
+        'type': argparse.FileType(),
         'required': True,
         'help': hlp,
         'completer': completion_utils.yaml_files_completer
@@ -124,6 +124,15 @@ def allow_custom_parameters_argument():
     }
 
 
+def force_argument(hlp):
+    return {
+        'dest': 'force',
+        'action': 'store_true',
+        'default': False,
+        'help': hlp
+    }
+
+
 def timeout_argument():
     return {
         'dest': 'timeout',
@@ -145,7 +154,7 @@ def include_logs_argument():
 
 def install_plugins_argument():
     return {
-        'dest': 'install_plugins_',
+        'dest': 'install_plugins',
         'action': 'store_true',
         'default': False,
         'help': 'Install necessary plugins of the given blueprint.'
@@ -212,7 +221,7 @@ def parser_config():
                 'arguments': {
                     # TODO make {blueprint-path, blueprint-id} and
                     # TODO {archive-location, blueprint-filename}
-                    # TODO mutually exclusive groups
+                    # TODO mutually exclusive groups?
                     '-p,--blueprint-path': argument_utils.make_optional(
                             argument_utils.set_default(
                                     manager_blueprint_path_argument(
@@ -225,7 +234,7 @@ def parser_config():
                             argument_utils.make_optional(blueprint_id_argument(
                             ))
                     ),
-                    '-l,--archive-location': argument_utils.make_optional(
+                    '--archive-location': argument_utils.make_optional( # TODO this originally also had `-l`, but I removed it as it conflicted with the `-l` of `include logs`
                             archive_location_argument()),
                     '-n,--blueprint-filename': blueprint_filename_argument(),
                     '-d,--deployment-id': deployment_id_argument(
@@ -235,19 +244,42 @@ def parser_config():
                         hlp='Inputs file/string for the deployment creation'
                             '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
                     ),
-                    '-w,--workflow': argument_utils.make_optional(
-                            workflow_id_argument(
+                    '-w,--workflow': argument_utils.set_default(
+                            argument_utils.make_optional(workflow_id_argument(
                                     hlp='The workflow to start (by default: '
-                                        '`install`')
-                    ),
+                                        '`install`')),
+                            'install'),
                     '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
                     '--allow-custom-parameters':
                         allow_custom_parameters_argument(),
                     '--timeout': timeout_argument(),
-                    '--include-logs': include_logs_argument()  # TODO this originally also had `-l`, but I removed it as it conflicted with the `-l` of `archive location`
+                    '-l,--include-logs': include_logs_argument()
                 },
                 'handler': cfy.install
             },
+            'uninstall': {
+                'help': '',  # TODO add help text
+                'arguments': {
+                    '-b,--blueprint-id':
+                        argument_utils.make_optional(blueprint_id_argument()),
+                    '-d,--deployment-id': deployment_id_argument(
+                            hlp='The id of the deployed blueprint'),
+                    '-w,--workflow': argument_utils.set_default(
+                            argument_utils.make_optional(workflow_id_argument(
+                                    hlp='The workflow to start (by default: '
+                                        '`uninstall`')),
+                            'uninstall'),
+                    '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path` IN INSTALL
+                    '--allow-custom-parameters':
+                        allow_custom_parameters_argument(),
+                    '--timeout': timeout_argument(),
+                    '-l,--include-logs': include_logs_argument()
+                    # TODO decide if --ignore-live-nodes from `cfy deployments delete` should be an argument.
+
+                },
+                'handler': cfy.uninstall
+            },
+
             'plugins': {
                 'help': "Manages Cloudify's plugins",
                 'sub_commands': {
@@ -452,12 +484,10 @@ def parser_config():
                                 'default': False,
                                 'help': 'Restore snapshot without deployment environments'
                             },
-                            '-f,--force': {
-                                'dest': 'force',
-                                'action': 'store_true',
-                                'default': False,
-                                'help': 'Force restoring the snapshot on a dirty manager'
-                            }
+                            '-f,--force':
+                                force_argument(
+                                        hlp='Force restoring the snapshot on '
+                                            'a dirty manager')
                         },
                         'help': 'Restore manager state to a specific snapshot',
                         'handler': cfy.snapshots.restore
@@ -595,13 +625,13 @@ def parser_config():
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
                             '--timeout': timeout_argument(),
-                            '-f,--force': {
-                                'dest': 'force',
-                                'action': 'store_true',
-                                'default': False,
-                                'help': 'Whether the workflow should execute even if there is an ongoing'
-                                        ' execution for the provided deployment'
-                            },
+                            '-f,--force':
+                                force_argument(
+                                        hlp='Whether the workflow should '
+                                            'execute even if there is an '
+                                            'ongoing execution for the'
+                                            'provided deployment'
+                                ),
                             '-l,--include-logs': include_logs_argument(),
                             '-d,--deployment-id': deployment_id_argument(
                                 hlp='The deployment id')
@@ -614,13 +644,10 @@ def parser_config():
                             '-e,--execution-id': execution_id_argument(
                                 hlp='The id of the execution to cancel'
                             ),
-                            '-f,--force': {
-                                'dest': 'force',
-                                'action': 'store_true',
-                                'default': False,
-                                'help': 'Terminate the execution abruptly, '
-                                        'rather than request an orderly termination'
-                            }
+                            '-f,--force': force_argument(
+                                    hlp='Terminate the execution abruptly, '
+                                        'rather than request an orderly '
+                                        'termination')
                         },
                         'help': 'Cancel an execution by its id',
                         'handler': cfy.executions.cancel
@@ -735,10 +762,13 @@ def parser_config():
                                         'deployment creation({0})'.
                                         format(FORMAT_INPUT_AS_YAML_OR_DICT)),
                             '--install-plugins': install_plugins_argument(),
-                            '-w,--workflow': argument_utils.make_optional(
-                                    workflow_id_argument(
-                                            hlp='The workflow to start '
-                                                '(by default: `install`')),
+                            '-w,--workflow': argument_utils.set_default(
+                                    argument_utils.make_optional(
+                                            workflow_id_argument(
+                                                    hlp='The workflow to start'
+                                                        ' (by default: '
+                                                        '`install`')),
+                                    'install'),
                             '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
@@ -750,7 +780,6 @@ def parser_config():
                         },
                         'handler': cfy.local.install
                     },
-
                     'init': {
                         'help': 'Init a local workflow execution environment '
                                 'in the current working directory',
@@ -916,12 +945,8 @@ def parser_config():
                         'help': 'Perform teardown even if deployments'
                                 'exist on the manager'
                     },
-                    '-f,--force': {
-                        'dest': 'force',
-                        'action': 'store_true',
-                        'default': False,
-                        'help': 'Confirmation for the teardown request'
-                    }
+                    '-f,--force': force_argument(
+                            hlp='Confirmation for the teardown request')
                 },
                 'handler': cfy.teardown
             },
@@ -929,12 +954,9 @@ def parser_config():
                 'help': 'Performs recovery of the management machine '
                         'and all its contained nodes.',
                 'arguments': {
-                    '-f,--force': {
-                        'dest': 'force',
-                        'action': 'store_true',
-                        'default': False,
-                        'help': 'Confirmation for the recovery request'
-                    },
+                    '-f,--force': force_argument(
+                            hlp='Confirmation for the recovery request'
+                    ),
                     '--task-retries': task_retries_argument(5),
                     '--task-retry-interval': task_retry_interval_argument(30),
                     '--task-thread-pool-size':
