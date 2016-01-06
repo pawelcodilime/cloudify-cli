@@ -49,7 +49,8 @@ def blueprint_id_argument():
         'help': 'The id of the blueprint',
         'dest': 'blueprint_id',
         'required': True,
-        'completer': completion_utils.objects_args_completer_maker('blueprints')
+        'completer':
+            completion_utils.objects_args_completer_maker('blueprints')
     }
 
 
@@ -787,8 +788,8 @@ def parser_config():
                                             workflow_id_argument(
                                                     hlp='The workflow to start'
                                                         ' (by default: '
-                                                        '`install`')),
-                                    'install'),
+                                                        '`uninstall`')),
+                                    'uninstall'),
                             '-p,--parameters': parameters_argument(),
                             '--allow-custom-parameters':
                                 allow_custom_parameters_argument(),
@@ -813,7 +814,7 @@ def parser_config():
                                         'workflow creation ({0})'
                                         .format(FORMAT_INPUT_AS_YAML_OR_DICT)
                                 ),
-                            '--install-plugins': install_plugins_argument(),
+                            '--install-plugins': install_plugins_argument()
                         },
                         'handler': cfy.local.init
                     },
