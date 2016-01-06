@@ -82,6 +82,7 @@ def deployment_id_argument(hlp):
 def inputs_argument(hlp):
     return {
         'dest': 'inputs',
+        'defualt': 'inputs.yaml',
         'help': hlp
     }
 
