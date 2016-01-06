@@ -19,8 +19,9 @@ Handles 'cfy uninstall'
 
 import os
 
-# from cloudify_cli import commands as cfy
-
+from cloudify_cli.exceptions import CloudifyCliError
+from cloudify_cli import execution_events_fetcher
+from cloudify_cli import utils
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
 from cloudify_cli.commands import executions
@@ -45,7 +46,7 @@ def uninstall(blueprint_id, deployment_id, workflow_id, parameters,
     executions.start(workflow_id, deployment_id, timeout, force,
                      allow_custom_parameters, include_logs, parameters)
 
-    #
+    wait_for_stop_dep_env_execution_to_end(deployment_id)
 
     # TODO decide if --ignore-live-nodes from `cfy deployments delete` should be an argument of cfy uninstall.
     ignore_live_nodes = True
@@ -58,3 +59,38 @@ def uninstall(blueprint_id, deployment_id, workflow_id, parameters,
         blueprint_id = deployment_id
 
     blueprints.delete(blueprint_id)
+
+###############################################################################
+# From here, it is just a patch that enables to call `cfy deployments delete`
+# right after `cfy executions start [-w uninstall]`
+###############################################################################
+
+TERMINATED = 'terminated'
+FAILED = 'failed'
+CANCELLED = 'cancelled'
+END_STATES = [TERMINATED, FAILED, CANCELLED]
+
+
+def wait_for_stop_dep_env_execution_to_end(deployment_id):
+
+    client = utils.get_rest_client()
+
+    # The underscore in `_executions` is so that this variable's name
+    # won't shadow `executions` from the import section.
+    _executions = client.executions.list(
+            deployment_id=deployment_id,
+            include_system_workflows=True)
+    running_stop_executions = [e for e in _executions if e.workflow_id ==
+                               '_stop_deployment_environment' and
+                               e.status not in END_STATES]
+
+    if not running_stop_executions:
+        return
+
+    if len(running_stop_executions) > 1:
+        raise CloudifyCliError('There is more than one running '
+                               '"_stop_deployment_environment" execution: {0}'
+                               .format(running_stop_executions))
+
+    execution = running_stop_executions[0]
+    return execution_events_fetcher.wait_for_execution(client, execution)
