@@ -212,7 +212,7 @@ def dump_cloudify_working_dir_settings(cosmo_wd_settings=None, update=False):
         cosmo_wd_settings = CloudifyWorkingDirectorySettings()
     if update:
         # locate existing file
-        # this will raise an error if the file doesnt exist.
+        # this will raise an error if the file doesn't exist.
         target_file_path = get_context_path()
     else:
 
