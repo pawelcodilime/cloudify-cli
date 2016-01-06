@@ -779,6 +779,27 @@ def parser_config():
                         },
                         'handler': cfy.local.install
                     },
+                    'uninstall': {
+                        'help': '',  # TODO add help text
+                        'arguments': {
+                            '-w,--workflow': argument_utils.set_default(
+                                    argument_utils.make_optional(
+                                            workflow_id_argument(
+                                                    hlp='The workflow to start'
+                                                        ' (by default: '
+                                                        '`install`')),
+                                    'install'),
+                            '-p,--parameters': parameters_argument(),
+                            '--allow-custom-parameters':
+                                allow_custom_parameters_argument(),
+                            '--task-retries': task_retries_argument(0),
+                            '--task-retry-interval':
+                                task_retry_interval_argument(1),
+                            '--task-thread-pool-size':
+                                task_thread_pool_size_argument()
+                        },
+                        'handler': cfy.local.uninstall
+                    },
                     'init': {
                         'help': 'Init a local workflow execution environment '
                                 'in the current working directory',

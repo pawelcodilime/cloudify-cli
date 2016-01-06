@@ -46,6 +46,11 @@ def install(blueprint_path, inputs, install_plugins_, workflow_id, parameters,
             task_retry_interval, task_thread_pool_size)
 
 
+def uninstall(workflow_id, parameters, allow_custom_parameters, task_retries,
+              task_retry_interval, task_thread_pool_size):
+
+    execute(workflow_id, parameters, allow_custom_parameters, task_retries,
+            task_retry_interval, task_thread_pool_size)
 
 
 def init(blueprint_path,
