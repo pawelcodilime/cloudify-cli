@@ -77,8 +77,6 @@ def deployment_id_argument(hlp):
     }
 
 
-# TODO consider adding `default` with value `inputs.yaml` or `inputs/inputs.yaml` (is is like that in nodecellar)
-# TODO suggest this in the api google group.
 def inputs_argument(hlp):
     return {
         'dest': 'inputs',
