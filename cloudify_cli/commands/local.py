@@ -53,9 +53,15 @@ def uninstall(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
 
 
+# The 'overshadowing' of the `install_plugins` parameter is fine,
+# because we don't reference the `install_plugins` function in a scope where
+# the parameter is defined.
+# The overshadowing was done in order to be able to extract an
+# `install_plugins_argument` function from all of the `install_plugins`
+# arguments in cloudify_cli/config/parser_config.py
 def init(blueprint_path,
          inputs,
-         install_plugins_):
+         install_plugins):
     if os.path.isdir(_storage_dir()):
         shutil.rmtree(_storage_dir())
 
@@ -67,7 +73,7 @@ def init(blueprint_path,
             name=_NAME,
             inputs=inputs,
             storage=_storage(),
-            install_plugins=install_plugins_,
+            install_plugins=install_plugins,
             resolver=utils.get_import_resolver()
         )
     except ImportError as e:
