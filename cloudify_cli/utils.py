@@ -20,6 +20,8 @@ import pkgutil
 import sys
 import tempfile
 import getpass
+import shutil
+import errno
 from contextlib import contextmanager
 
 
@@ -484,6 +486,14 @@ class CloudifyWorkingDirectorySettings(yaml.YAMLObject):
 
     def set_protocol(self, protocol):
         self._protocol = protocol
+
+
+def remove_if_exists(dirpath):
+    try:
+        shutil.rmtree(dirpath)
+    except OSError as e:
+        if e.errno != errno.ENOENT:  # errno.ENOENT = no such file or directory
+            raise  # re-raise exception if a different error occurred
 
 
 def delete_cloudify_working_dir_settings():
