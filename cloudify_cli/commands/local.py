@@ -52,6 +52,14 @@ def uninstall(workflow_id, parameters, allow_custom_parameters, task_retries,
     execute(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
 
+    # reverse the `cfy local init` effect:
+    # recall that regarding the `.cloudify` dir, we first search to see if it
+    # exists up the directory tree of the cwd. If such one exists,
+    # a `.cloudify` dir is created. If not, a `.cloudify` dir is created in the
+    # cwd.
+    # in addition, regarding the `local-storage` dir, if it exists in the cwd,
+    # delete it. In any case, (re)create it in the cwd afterwards.
+
 
 # The 'overshadowing' of the `install_plugins` parameter is fine,
 # because we don't reference the `install_plugins` function in a scope where
