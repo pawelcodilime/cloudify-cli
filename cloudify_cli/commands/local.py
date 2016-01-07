@@ -23,6 +23,7 @@ import os
 
 from cloudify.workflows import local
 from cloudify_cli import exceptions
+from cloudify_cli import constants
 from cloudify_cli import common
 from cloudify_cli import utils
 from cloudify_cli.logger import get_logger
@@ -51,6 +52,8 @@ def uninstall(workflow_id, parameters, allow_custom_parameters, task_retries,
 
     execute(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
+
+
 
     # reverse the `cfy local init` effect:
     # recall that regarding the `.cloudify` dir, we first search to see if it
@@ -177,6 +180,11 @@ def create_requirements(blueprint_path, output):
         for requirement in requirements:
             print(requirement)
             logger.info(requirement)
+
+
+def _wd_settings_dir():
+    return os.path.join(utils.get_cwd(),
+                        constants.CLOUDIFY_WD_SETTINGS_DIRECTORY_NAME)
 
 
 def _storage_dir():

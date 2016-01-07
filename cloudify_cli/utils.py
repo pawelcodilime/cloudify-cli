@@ -186,11 +186,6 @@ def get_init_path():
             current_lookup_dir = os.path.dirname(current_lookup_dir)
 
 
-def wd_settings_dir():
-    return os.path.join(get_cwd(),
-                        constants.CLOUDIFY_WD_SETTINGS_DIRECTORY_NAME)
-
-
 def get_configuration_path():
     dot_cloudify = get_init_path()
     return os.path.join(
