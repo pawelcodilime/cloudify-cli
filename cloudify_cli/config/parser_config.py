@@ -246,7 +246,7 @@ def parser_config():
                     ),
                     '-w,--workflow': argument_utils.set_default(
                             argument_utils.make_optional(workflow_id_argument(
-                                    hlp='The workflow to start (by default: '
+                                    hlp='The workflow to start (default: '
                                         '`install`')),
                             'install'),
                     '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
@@ -266,7 +266,7 @@ def parser_config():
                             hlp='The id of the deployed blueprint'),
                     '-w,--workflow': argument_utils.set_default(
                             argument_utils.make_optional(workflow_id_argument(
-                                    hlp='The workflow to start (by default: '
+                                    hlp='The workflow to start (default: '
                                         '`uninstall`')),
                             'uninstall'),
                     '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path` IN INSTALL
@@ -765,9 +765,8 @@ def parser_config():
                             '-w,--workflow': argument_utils.set_default(
                                     argument_utils.make_optional(
                                             workflow_id_argument(
-                                                    hlp='The workflow to start'
-                                                        ' (by default: '
-                                                        '`install`')),
+                                                hlp="The workflow to start "
+                                                    "(default: 'install')")),
                                     'install'),
                             '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
                             '--allow-custom-parameters':
@@ -786,9 +785,8 @@ def parser_config():
                             '-w,--workflow': argument_utils.set_default(
                                     argument_utils.make_optional(
                                             workflow_id_argument(
-                                                    hlp='The workflow to start'
-                                                        ' (by default: '
-                                                        '`uninstall`')),
+                                                hlp="The workflow to start "
+                                                    "(default: 'uninstall')")),
                                     'uninstall'),
                             '-p,--parameters': parameters_argument(),
                             '--allow-custom-parameters':
