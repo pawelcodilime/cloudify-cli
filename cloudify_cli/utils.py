@@ -170,8 +170,8 @@ def is_initialized():
 
 def get_init_path():
     """
-    search in each directory up the cwd tree for the existence of the Cloudify
-    settings directory.
+    search in each directory up the cwd directory tree for the existence of the
+    Cloudify settings directory (`.cloudify`).
     :return: if we found it, return it's path. else, return None
     """
     current_lookup_dir = get_cwd()
