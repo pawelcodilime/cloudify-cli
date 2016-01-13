@@ -34,14 +34,11 @@ _NAME = 'local'
 _STORAGE_DIR_NAME = 'local-storage'
 
 
-def install(blueprint_path, inputs, install_plugins_, workflow_id, parameters,
+def install(blueprint_path, inputs, install_plugins, workflow_id, parameters,
             allow_custom_parameters, task_retries, task_retry_interval,
             task_thread_pool_size
             ):
-    init(blueprint_path, inputs, install_plugins_)
-
-    if workflow_id is None:
-        workflow_id = 'install'
+    init(blueprint_path, inputs, install_plugins)
 
     execute(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
@@ -52,6 +49,17 @@ def uninstall(workflow_id, parameters, allow_custom_parameters, task_retries,
 
     execute(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
+
+    # Since the `local uninstall` command wishes to reverse the effect of
+    # `local install`, we wish to remove the 'Cloudify settings directory'
+    # (`.cloudify/`) iff `local install` had created it.
+    # Recall that `local install` (by calling `local init`) creates the
+    # .cloudify dir iff all the directories up the path of the install
+    # directory do not already contain a .cloudify directory.
+    utils.remove_if_exists(_wd_settings_dir())
+
+
+    utils.remove_if_exists(_storage_dir)
 
 
 
