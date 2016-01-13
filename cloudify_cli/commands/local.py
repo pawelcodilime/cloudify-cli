@@ -50,34 +50,15 @@ def uninstall(workflow_id, parameters, allow_custom_parameters, task_retries,
     execute(workflow_id, parameters, allow_custom_parameters, task_retries,
             task_retry_interval, task_thread_pool_size)
 
-    # Since the `local uninstall` command wishes to reverse the effect of
-    # `local install`, we wish to remove the 'Cloudify settings directory'
-    # (`.cloudify/`) iff `local install` had created it.
-    # Recall that `local install` (by calling `local init`) creates the
-    # .cloudify dir iff all the directories up the path of the install
-    # directory do not already contain a .cloudify directory.
-    utils.remove_if_exists(_wd_settings_dir())
-
-
+    # remove the local-storage dir
     utils.remove_if_exists(_storage_dir)
 
+    # Note that although `local install` possibly creates a `.cloudify` dir
+    # in addition to the creation of the local storage dir, `local uninstall`
+    # does not remove the .cloudify dir.
 
 
-    # reverse the `cfy local init` effect:
-    # recall that regarding the `.cloudify` dir, we first search to see if it
-    # exists up the directory tree of the cwd. If such one exists,
-    # a `.cloudify` dir is created. If not, a `.cloudify` dir is created in the
-    # cwd.
-    # in addition, regarding the `local-storage` dir, if it exists in the cwd,
-    # delete it. In any case, (re)create it in the cwd afterwards.
-
-
-# The 'overshadowing' of the `install_plugins` parameter is fine,
-# because we don't reference the `install_plugins` function in a scope where
-# the parameter is defined.
-# The overshadowing was done in order to be able to extract an
-# `install_plugins_argument` function from all of the `install_plugins`
-# arguments in cloudify_cli/config/parser_config.py
+# The 'overshadowing' of the `install_plugins` parameter is totally fine
 def init(blueprint_path,
          inputs,
          install_plugins):
