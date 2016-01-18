@@ -46,7 +46,7 @@ def local_blueprint_path_argument(hlp):
 
 def blueprint_id_argument():
     return {
-        'help': 'The id of the blueprint',
+        'help': "The blueprint's id",
         'dest': 'blueprint_id',
         'required': True,
         'completer':
@@ -66,7 +66,7 @@ def archive_location_argument():
 def blueprint_filename_argument():
     return {
         'dest': 'blueprint_filename',
-        'help': "Name of the archive's main blueprint file",
+        'help': "The name of the archive's main blueprint file",
     }
 
 
@@ -281,7 +281,7 @@ def parser_config():
             },
 
             'plugins': {
-                'help': "Manages Cloudify's plugins",
+                'help': "Manage Cloudify's plugins",
                 'sub_commands': {
                     'upload': {
                         'arguments': {
@@ -290,17 +290,17 @@ def parser_config():
                                 'dest': 'plugin_path',
                                 'type': argparse.FileType(),
                                 'required': True,
-                                'help': 'Path to the plugin file',
+                                'help': 'Path to a plugin file',
                                 'completer': completion_utils.yaml_files_completer
                             }
                         },
-                        'help': 'command for uploading a plugin to the management server',
+                        'help': 'Upload a plugin to the management server',
                         'handler': cfy.plugins.upload
                     },
                     'get': {
                         'arguments': {
                             '-p,--plugin-id': plugin_id_argument(
-                                hlp='The plugin id')
+                                hlp='Plugin id')
                         },
                         'help': 'Command for listing all modules according to their plugin id',
                         'handler': cfy.plugins.get
@@ -308,19 +308,18 @@ def parser_config():
                     'download': {
                         'arguments': {
                             '-p,--plugin-id': plugin_id_argument(
-                                hlp='The plugin id'),
+                                hlp='Plugin id'),  # determine `id` writing convention (id, ID)
                             '-o,--output': {
-                                'help': 'The output file path of the plugin to be downloaded',
+                                'help': 'Path for the downloaded plugin',
                                 'dest': 'output',
 
                             }
                         },
-                        'help': 'Command for downloading a plugin from the management server',
+                        'help': 'Download a plugin from the Manager',
                         'handler': cfy.plugins.download
                     },
                     'list': {
-                        'help': 'Command for listing all plugins on the '
-                                'Manager',
+                        'help': 'List all the plugins on the Manager',
                         'handler': cfy.plugins.ls
                     },
                     'delete': {
@@ -328,13 +327,13 @@ def parser_config():
                             '-p,--plugin-id': plugin_id_argument(
                                 hlp='The plugin id')
                         },
-                        'help': 'Command for deleting a plugin',
+                        'help': 'Delete a plugin from the manager',
                         'handler': cfy.plugins.delete
                     }
                 }
             },
             'blueprints': {
-                'help': "Manages Cloudify's Blueprints",
+                'help': "Manage Cloudify's Blueprints",
                 'sub_commands': {
                     'upload': {
                         'arguments': {
@@ -345,7 +344,7 @@ def parser_config():
                                 ),
                             '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
                         },
-                        'help': 'command for uploading a blueprint to the management server',
+                        'help': 'Upload a blueprint to the Manager',
                         'handler': cfy.blueprints.upload
                     },
                     'publish-archive': {
@@ -354,9 +353,8 @@ def parser_config():
                             '-n,--blueprint-filename': blueprint_filename_argument(),
                             '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
                         },
-                        'help': 'command for publishing a blueprint '
-                                'archive from a path or URL to the '
-                                'management server',
+                        'help': 'Publish a blueprint archive from a path or '
+                                'a URL to the Manager',
                         'handler': cfy.blueprints.publish_archive
                     },
                     'download': {
@@ -365,14 +363,13 @@ def parser_config():
                             '-o,--output': {
                                 'help': 'The output file path of the blueprint to be downloaded',
                                 'dest': 'output',
-
                             }
                         },
-                        'help': 'command for downloading a blueprint from the management server',
+                        'help': 'Download a blueprint from the Manager',
                         'handler': cfy.blueprints.download
                     },
                     'list': {
-                        'help': 'command for listing all blueprints on the '
+                        'help': 'List all blueprints on the '
                                 'Manager',
                         'handler': cfy.blueprints.ls
                     },
@@ -380,7 +377,7 @@ def parser_config():
                         'arguments': {
                             '-b,--blueprint-id': blueprint_id_argument()
                         },
-                        'help': 'command for deleting a blueprint',
+                        'help': 'Delete a blueprint from the manager',
                         'handler': cfy.blueprints.delete
                     },
                     'validate': {
@@ -391,21 +388,21 @@ def parser_config():
                                             "blueprint file"
                                 ),
                         },
-                        'help': 'command for validating a blueprint',
+                        'help': 'Validate a blueprint',
                         'handler': cfy.blueprints.validate
                     },
                     'get': {
                         'arguments': {
                             '-b,--blueprint-id': blueprint_id_argument()
                         },
-                        'help': 'command for getting a blueprint by its id',
+                        'help': 'Get a blueprint by its id',
                         'handler': cfy.blueprints.get
                     },
                     'inputs': {
                         'arguments': {
                             '-b,--blueprint-id': blueprint_id_argument()
                         },
-                        'help': 'command for listing all available blueprint inputs',
+                        'help': "List a blueprint's inputs",
                         'handler': cfy.blueprints.inputs
                     }
                 }
@@ -512,7 +509,7 @@ def parser_config():
                 }
             },
             'deployments': {
-                'help': "Manages and Executes Cloudify's Deployments",
+                'help': "Manage Cloudify's Deployments",
                 'sub_commands': {
                     'create': {
                         'arguments': {
@@ -528,7 +525,7 @@ def parser_config():
                                     'creation ({0})'
                                     .format(FORMAT_INPUT_AS_YAML_OR_DICT))
                         },
-                        'help': 'command for creating a deployment of a blueprint',
+                        'help': 'Create a deployment from a blueprint',
                         'handler': cfy.deployments.create
                     },
                     'delete': {
@@ -543,7 +540,7 @@ def parser_config():
                                         'if there are existing live nodes for it'
                             }
                         },
-                        'help': 'command for deleting a deployment',
+                        'help': 'Delete a deployment from the manager',
                         'handler': cfy.deployments.delete
                     },
                     'list': {
@@ -552,8 +549,8 @@ def parser_config():
                                 blueprint_id_argument()
                             )
                         },
-                        'help': 'command for listing all deployments or all deployments'
-                                ' of a blueprint',
+                        'help': 'List the all deployments on the manager, '
+                                'or all deployments of a specific blueprint',
                         'handler': cfy.deployments.ls
                     },
                     'outputs': {
@@ -563,7 +560,7 @@ def parser_config():
                                     'for'
                             )
                         },
-                        'help': 'command for getting a specific deployment outputs',
+                        'help': 'Get outputs for a specific deployment',
                         'handler': cfy.deployments.outputs
                     }
                 }
