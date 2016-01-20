@@ -139,7 +139,7 @@ def timeout_argument():
         'type': int,
         'default': 900,
         'help': 'Operation timeout in seconds (The execution itself will keep '
-                'going, it is the CLI that will stop waiting for it to '
+                'going. It is the CLI that will stop waiting for it to '
                 'terminate)'
     }
 
@@ -184,7 +184,7 @@ def task_thread_pool_size_argument():
         'dest': 'task_thread_pool_size',
         'default': 1,
         'type': int,
-        'help': 'The size of the thread pool size to execute tasks in'
+        'help': 'The size of the thread pool to execute tasks in'
     }
 
 
@@ -211,7 +211,7 @@ def parser_config():
         'description': 'Manages Cloudify in different Cloud Environments',
         'arguments': {
             '--version': {
-                'help': 'show version information and exit',
+                'help': 'Show version information and exit',
                 'action': cfy.version
             }
         },
@@ -302,7 +302,7 @@ def parser_config():
                             '-p,--plugin-id': plugin_id_argument(
                                 hlp='Plugin id')
                         },
-                        'help': 'Command for listing all modules according to their plugin id',
+                        'help': 'Listing all modules according to their plugin id',
                         'handler': cfy.plugins.get
                     },
                     'download': {
@@ -446,7 +446,7 @@ def parser_config():
                             },
                             '-s,--snapshot-id': argument_utils.remove_completer(snapshot_id_argument('The id of the snapshot'))
                         },
-                        'help': 'Upload a snapshot to the management server',
+                        'help': 'Upload a snapshot to the Manager',
                         'handler': cfy.snapshots.upload
                     },
                     'download': {
@@ -458,11 +458,11 @@ def parser_config():
 
                             }
                         },
-                        'help': 'Download a snapshot from the management server',
+                        'help': 'Download a snapshot from the Manager',
                         'handler': cfy.snapshots.download
                     },
                     'list': {
-                        'help': 'List all snapshots on the manager',
+                        'help': 'List all snapshots on the Manager',
                         'handler': cfy.snapshots.ls
                     },
                     'delete': {
@@ -484,7 +484,8 @@ def parser_config():
                             '-f,--force':
                                 force_argument(
                                         hlp='Force restoring the snapshot on '
-                                            'a dirty manager')
+                                            'a Manager with existing blueprints'
+                                            'and/or deployments')
                         },
                         'help': 'Restore manager state to a specific snapshot',
                         'handler': cfy.snapshots.restore
@@ -503,7 +504,7 @@ def parser_config():
                             ),
                             '-l,--include-logs': include_logs_argument()
                         },
-                        'help':'command for installing agents on deployments',
+                        'help':'Install agents on deployments',
                         'handler': cfy.agents.install
                     }
                 }
@@ -536,8 +537,8 @@ def parser_config():
                                 'dest': 'ignore_live_nodes',
                                 'action': 'store_true',
                                 'default': False,
-                                'help': 'Delete the deployment even '
-                                        'if there are existing live nodes for it'
+                                'help': 'Delete the deployment even if '
+                                        'there are existing live nodes for it'
                             }
                         },
                         'help': 'Delete a deployment from the manager',
@@ -566,7 +567,7 @@ def parser_config():
                 }
             },
             'events': {
-                'help': "Manages Cloudify's events",
+                'help': "Manage Cloudify's events",
                 'sub_commands': {
                     'list': {
                         'arguments': {
@@ -578,16 +579,16 @@ def parser_config():
                                 'dest': 'tail',
                                 'action': 'store_true',
                                 'default': False,
-                                'help': 'tail the events of the specified execution until it ends'
+                                'help': 'Tail the events of the specified execution until it ends'
                             }
                         },
-                        'help': 'Displays Events for different executions',
+                        'help': 'Display Events for different executions',
                         'handler': cfy.events.ls
                     }
                 }
             },
             'executions': {
-                'help': "Manages Cloudify's Executions",
+                'help': "Manage Cloudify's Executions",
                 'sub_commands': {
                     'get': {
                         'arguments': {
@@ -595,23 +596,24 @@ def parser_config():
                                 hlp='The id of the execution to get'
                             )
                         },
-                        'help': 'command for getting an execution by its id',
+                        'help': 'Get an execution by its id',
                         'handler': cfy.executions.get
                     },
                     'list': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp="Filter executions for a given deployment "
-                                    "by the deployment's id"
+                                hlp='The Deployment id to list executions for'
                             ),
                             '--system-workflows': {
                                 'dest': 'include_system_workflows',
                                 'action': 'store_true',
                                 'default': False,
-                                'help': 'Include executions of system workflows.'
+                                'help': 'Include executions of '
+                                        'system workflows'
                             },
                         },
-                        'help': 'command for listing all executions of a deployment',
+                        'help': 'List all running executions, or all '
+                                'executions for a specific deployment',
                         'handler': cfy.executions.ls
                     },
                     'start': {
@@ -624,16 +626,16 @@ def parser_config():
                             '--timeout': timeout_argument(),
                             '-f,--force':
                                 force_argument(
-                                        hlp='Whether the workflow should '
-                                            'execute even if there is an '
-                                            'ongoing execution for the'
-                                            'provided deployment'
+                                        hlp='Execute the workflow even if '
+                                            'there is an ongoing execution for'
+                                            'the given deployment'
                                 ),
                             '-l,--include-logs': include_logs_argument(),
                             '-d,--deployment-id': deployment_id_argument(
                                 hlp='The deployment id')
                         },
-                        'help': 'Command for starting a workflow execution on a deployment',
+                        'help': 'Start executing a workflow '
+                                'on a given deployment',
                         'handler': cfy.executions.start
                     },
                     'cancel': {
@@ -659,24 +661,25 @@ def parser_config():
                             '--node-id': {
                                 'dest': 'node_id',
                                 'required': True,
-                                'help': 'The ID of the node to get'
+                                'help': "The node's id"
                             },
                             '-d,--deployment-id': argument_utils.make_required(
                                     deployment_id_argument(
-                                            hlp='Filter nodes for a given '
-                                                'deployment according to the '
-                                                'deployment ID'))
+                                            hlp='The deployment id to which '
+                                                'the node is related'))
                         },
-                        'help': 'command for getting a node by its ID',
+                        'help': 'Get information about a specific node',
                         'handler': cfy.nodes.get
                     },
                     'list': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                    hlp='Filter nodes for a given deployment '
-                                        'according to the deployment ID')
+                                    hlp='The id of the deployment to list '
+                                        'nodes for. If omitted, this will '
+                                        'list nodes for all deployments')
                         },
-                        'help': 'Command for getting all nodes',
+                        'help': 'List nodes for all deployments, or for a '
+                                'specific deployment',
                         'handler': cfy.nodes.ls
                     }
                 }
@@ -692,39 +695,41 @@ def parser_config():
                                 'help': 'The ID of the node instance to get'
                             }
                         },
-                        'help': 'Command for getting a node instance according to it\'s ID',
+                        'help': "Get a node instance according to its ID",
                         'handler': cfy.node_instances.get
                     },
                     'list': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                    hlp='Filter node instances for a given '
-                                        'deployment according to the '
-                                        'deployment ID'),
+                                    hlp='The id of the deployment to list '
+                                        'node instances for. If omitted, '
+                                        'this will list node instances'
+                                        'for all deployments)'),
                             '--node-name': {
                                 'dest': 'node_name',
-                                'help': 'Filter node instances according to the node name'
+                                'help': "The node's name"
                             }
                         },
-                        'help': 'Command for getting node instances',
+                        'help': 'List node instances for all deployments,'
+                                'or for a specific deployment',
                         'handler': cfy.node_instances.ls
                     }
                 }
             },
             'workflows': {
-                'help': 'Manages Deployment Workflows',
+                'help': 'Manage Deployment Workflows',
                 'sub_commands': {
                     'get': {
                         'arguments': {
                             '-d,--deployment-id': deployment_id_argument(
-                                hlp='The id of the deployment for whic  h the '
+                                hlp='The id of the deployment to which the '
                                     'workflow belongs'
                             ),
                             '-w,--workflow': workflow_id_argument(
                                 hlp='The id of the workflow to get'
                             )
                         },
-                        'help': 'command for getting a workflow by its name and deployment',
+                        'help': 'Get a workflow by its name and deployment',
                         'handler': cfy.workflows.get
                     },
                     'list': {
@@ -734,13 +739,13 @@ def parser_config():
                                     'to list'
                             )
                         },
-                        'help': 'command for listing workflows for a deployment',
+                        'help': 'List workflows for a deployment',
                         'handler': cfy.workflows.ls
                     }
                 }
             },
             'local': {
-                'help': 'Execute workflows locally',
+                'help': 'Manage local workflows',
                 'sub_commands': {
                     'install': {
                         'help': '',  # TODO add help text
@@ -814,7 +819,7 @@ def parser_config():
                         'handler': cfy.local.init
                     },
                     'install-plugins': {
-                        'help': 'Installs the necessary plugins for a given blueprint',
+                        'help': 'Install the necessary plugins for a given blueprint',
                         'arguments': {
                             '-p,--blueprint-path':
                                 local_blueprint_path_argument(
@@ -824,7 +829,7 @@ def parser_config():
                         'handler': cfy.local.install_plugins
                     },
                     'create-requirements': {
-                        'help': 'Creates a PIP compliant requirements file for the given blueprint',
+                        'help': 'Create a pip-compliant requirements file for a given blueprint',
                         'arguments': {
                             '-p,--blueprint-path':
                                 local_blueprint_path_argument(
@@ -868,7 +873,7 @@ def parser_config():
                         'arguments': {
                             '--node-id': {
                                 'dest': 'node_id',
-                                'help': 'Only display node instances of this node id'
+                                'help': 'Display only node instances of this node id'
                             }
                         },
                         'handler': cfy.local.instances
@@ -876,7 +881,7 @@ def parser_config():
                 }
             },
             'status': {
-                'help': "Show a management server's status",
+                'help': "Show the Manager's status",
                 'handler': cfy.status
             },
             'dev': {
@@ -884,13 +889,13 @@ def parser_config():
                 'arguments': {
                     '-t,--task': {
                         'dest': 'task',
-                        'help': 'name of fabric task to run',
+                        'help': 'Name of fabric task to run',
                         'completer': completion_utils.dev_task_name_completer
                     },
                     '-a,--args': {
                         'nargs': argparse.REMAINDER,
                         'dest': 'args',
-                        'help': 'arguments for the fabric task'
+                        'help': 'Arguments for the fabric task'
                     },
                     '-p,--tasks-file': {
                         'dest': 'tasks_file',
@@ -900,7 +905,7 @@ def parser_config():
                 'handler': cfy.dev
             },
             'ssh': {
-                'help': 'SSH to management server',
+                'help': 'SSH to the machine the Manager is located on',
                 'arguments': {
                     '-c,--command': {
                         'dest': 'ssh_command',
@@ -916,7 +921,7 @@ def parser_config():
                 'handler': cfy.ssh
             },
             'bootstrap': {
-                'help': 'Bootstrap a Cloudify management environment',
+                'help': 'Bootstrap a Cloudify Manager',
                 'arguments': {
                     '-p,--blueprint-path':
                         local_blueprint_path_argument(
@@ -930,19 +935,19 @@ def parser_config():
                         'dest': 'keep_up',
                         'action': 'store_true',
                         'help': 'If the bootstrap fails,'
-                                ' the management server will remain running'
+                                ' the Manager will remain running'
                     },
                     '--skip-validations': {
                         'dest': 'skip_validations',
                         'action': 'store_true',
-                        'help': 'Run bootstrap without,'
-                                ' validating resources prior to bootstrapping the manager'
+                        'help': 'Run bootstrap without '
+                                'validating resources prior to bootstrapping the manager'
                     },
                     '--validate-only': {
                         'dest': 'validate_only',
                         'action': 'store_true',
-                        'help': 'Run validations without'
-                                ' actually performing the bootstrap process.'
+                        'help': 'Run validations without '
+                                'actually performing the bootstrap process'
                     },
                     '--install-plugins': install_plugins_argument(),
                     '--task-retries': task_retries_argument(5),
@@ -967,7 +972,7 @@ def parser_config():
                 'handler': cfy.teardown
             },
             'recover': {
-                'help': 'Performs recovery of the management machine '
+                'help': 'Perform recovery of the management machine '
                         'and all its contained nodes.',
                 'arguments': {
                     '-f,--force': force_argument(
@@ -986,15 +991,15 @@ def parser_config():
                 'handler': cfy.recover
             },
             'use': {
-                'help': 'Use/switch to the specified management server',
+                'help': 'Use/switch to a specific Cloudify Manager',
                 'arguments': {
                     '-t,--management-ip': {
-                        'help': 'The cloudify management server ip address',
+                        'help': "The Cloudify Manager ip's address",
                         'dest': 'management_ip',
                         'required': True
                     },
                     '--port': {
-                        'help': 'Specify the rest server port',
+                        'help': "The rest server's port",
                         'default': DEFAULT_REST_PORT,
                         'type': int,
                         'dest': 'rest_port'
