@@ -63,13 +63,6 @@ def archive_location_argument():
     }
 
 
-def blueprint_filename_argument():
-    return {
-        'dest': 'blueprint_filename',
-        'help': "The name of the archive's main blueprint file",
-    }
-
-
 def deployment_id_argument(hlp):
     return {
         'dest': 'deployment_id',
@@ -236,7 +229,12 @@ def parser_config():
                     ),
                     '--archive-location': argument_utils.make_optional( # TODO this originally also had `-l`, but I removed it as it conflicted with the `-l` of `include logs`
                             archive_location_argument()),
-                    '-n,--blueprint-filename': blueprint_filename_argument(),
+                    '-n,--blueprint-filename': {
+                        'dest': 'blueprint_filename',
+                        'default': 'blueprint.yaml',
+                        'help': "The name of the archive's main "
+                                "blueprint file. Defaults to `blueprint.yaml`"
+                    },
                     '-d,--deployment-id': deployment_id_argument(
                             hlp='The id of the deployed blueprint'
                     ),
@@ -350,7 +348,11 @@ def parser_config():
                     'publish-archive': {
                         'arguments': {
                             '-l,--archive-location': archive_location_argument(),
-                            '-n,--blueprint-filename': blueprint_filename_argument(),
+                            '-n,--blueprint-filename': {
+                                'dest': 'blueprint_filename',
+                                'help': "The name of the archive's main "
+                                        "blueprint file"
+                            },
                             '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
                         },
                         'help': 'Publish a blueprint archive from a path or '
