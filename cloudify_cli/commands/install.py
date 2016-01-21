@@ -19,47 +19,53 @@ Handles 'cfy install'
 
 import os
 
-# from cloudify_cli import commands as cfy
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
 from cloudify_cli.commands import executions
+from cloudify_cli.constants import DEFAULT_BLUEPRINT_FILE_NAME
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
             deployment_id, inputs, workflow_id, parameters,
             allow_custom_parameters, timeout, include_logs):
 
-    # if `blueprint-id` wasn't supplied, the blueprint id will be the name
-    # of the directory that contains the main blueprint of the the app.
-    if blueprint_id is None:
-        blueprint_id = os.path.basename(
-                os.path.dirname(
-                        os.path.abspath(blueprint_path.name)))
+    # We use the `archive_location` argument to distinguish between using
+    # `install` in 'upload blueprint' mode, and using `install` in 'publish
+    # archive' mode.
+    if archive_location:
+        # If blueprint-id wasn't supplied, assign it to the name of the archive
+        if blueprint_id is None:
 
-    # TODO the following conditions are a simple patch. Not the final and real deal:
-    if archive_location is None and blueprint_filename is None:
-        blueprints.upload(blueprint_path, blueprint_id)
-    else:
+            filename, ext = os.path.splitext(
+                    os.path.basename(archive_location))
+            blueprint_id = filename
+
         blueprints.publish_archive(archive_location, blueprint_filename,
                                    blueprint_id)
+    else:
+        # If blueprint-id wasn't supplied, assign it to the name of
+        # folder containing the application's blueprint file.
+        if blueprint_id is None:
 
-    # if `deployment-id` wasn't supplied, the deployment id will be the same
-    # as the blueprint id.
+            blueprint_id = os.path.basename(
+                    os.path.dirname(
+                            os.path.abspath(
+                                    blueprint_path.name)))
+
+        blueprints.upload(blueprint_path, blueprint_id)
+
+    # If deployment-id wasn't supplied, assign it to
+    # the same name as the blueprint id.
     if deployment_id is None:
         deployment_id = blueprint_id
 
     deployments.create(blueprint_id, deployment_id, inputs)
 
     # although the `install` command does not need the `force` argument,
-    # we are using the `executions start` handler as a part of it.
+    # we *are* using the `executions start` handler as a part of it.
     # as a result, we need to provide it with a `force` argument, which is
     # defined below.
     force = False
 
     executions.start(workflow_id, deployment_id, timeout, force,
                      allow_custom_parameters, include_logs, parameters)
-
-
-
-
-
