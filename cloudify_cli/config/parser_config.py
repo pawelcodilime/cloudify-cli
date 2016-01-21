@@ -21,6 +21,7 @@ from cloudify_cli import commands as cfy
 from cloudify_cli.config import completion_utils
 from cloudify_cli.config import argument_utils
 from cloudify_cli.constants import DEFAULT_REST_PORT
+from cloudify_cli.constants import DEFAULT_BLUEPRINT_FILE_NAME
 
 FORMAT_INPUT_AS_YAML_OR_DICT = 'formatted as YAML or as "key1=value1;key2=value2"'
 
@@ -220,7 +221,7 @@ def parser_config():
                                     manager_blueprint_path_argument(
                                             hlp="Path to the application's"
                                                 "blueprint file"
-                                    ), 'blueprint.yaml'
+                                    ), DEFAULT_BLUEPRINT_FILE_NAME
                             )
                     ),
                     '-b,--blueprint-id': argument_utils.remove_completer(
@@ -231,9 +232,10 @@ def parser_config():
                             archive_location_argument()),
                     '-n,--blueprint-filename': {
                         'dest': 'blueprint_filename',
-                        'default': 'blueprint.yaml',
+                        'default': DEFAULT_BLUEPRINT_FILE_NAME,
                         'help': "The name of the archive's main "
-                                "blueprint file. Defaults to `blueprint.yaml`"
+                                "blueprint file. Defaults to `{0}`"
+                                .format(DEFAULT_BLUEPRINT_FILE_NAME)
                     },
                     '-d,--deployment-id': deployment_id_argument(
                             hlp='The id of the deployed blueprint'
@@ -758,7 +760,7 @@ def parser_config():
                                             local_blueprint_path_argument(
                                                 hlp="Path to the application's"
                                                     "blueprint file"
-                                            ), 'blueprint.yaml'
+                                            ), DEFAULT_BLUEPRINT_FILE_NAME
                                         )
                                 ),
                             '-i,--inputs': inputs_argument(
