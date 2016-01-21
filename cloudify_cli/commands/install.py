@@ -22,7 +22,6 @@ import os
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
 from cloudify_cli.commands import executions
-from cloudify_cli.constants import DEFAULT_BLUEPRINT_FILE_NAME
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
