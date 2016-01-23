@@ -650,6 +650,7 @@ def parser_config():
                             '-i,--inputs': {
                                 'metavar': 'INPUTS',
                                 'dest': 'inputs',
+                                'action': 'append',
                                 'required': False,
                                 'help': 'Inputs file/string for the local workflow creation ({0})'
                                         .format(FORMAT_INPUT_AS_YAML_OR_DICT)

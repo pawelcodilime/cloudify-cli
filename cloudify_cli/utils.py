@@ -110,25 +110,27 @@ def get_context_path():
     return context_path
 
 
-def inputs_to_dict(resource, resource_name):
-    if not resource:
+def inputs_to_dict(resources, resource_name):
+    if not resources:
         return None
-    try:
-        # parse resource as string representation of a dictionary
-        parsed_dict = plain_string_to_dict(resource)
-    except CloudifyCliError:
+    parsed_dict = {}
+    for resource in resources:
         try:
-            # if resource is a path - parse as a yaml file
-            if os.path.exists(resource):
-                with open(resource, 'r') as f:
-                    parsed_dict = yaml.load(f.read())
-            else:
-                # parse resource content as yaml
-                parsed_dict = yaml.load(resource)
-        except yaml.error.YAMLError as e:
-            msg = ("'{0}' is not a valid YAML. {1}"
-                   .format(resource_name, str(e)))
-            raise CloudifyCliError(msg)
+            # parse resource as string representation of a dictionary
+            parsed_dict.update(plain_string_to_dict(resource))
+        except CloudifyCliError:
+            try:
+                # if resource is a path - parse as a yaml file
+                if os.path.exists(resource):
+                    with open(resource, 'r') as f:
+                        parsed_dict.update(yaml.load(f.read()))
+                else:
+                    # parse resource content as yaml
+                    parsed_dict.update(yaml.load(resource))
+            except yaml.error.YAMLError as e:
+                msg = ("'{0}' is not a valid YAML. {1}"
+                       .format(resource_name, str(e)))
+                raise CloudifyCliError(msg)
 
     if isinstance(parsed_dict, dict):
         return parsed_dict
