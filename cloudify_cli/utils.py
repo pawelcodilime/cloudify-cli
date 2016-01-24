@@ -144,7 +144,6 @@ def inputs_to_dict(resources, resource_name):
                 .format(resource, resource_name)
             raise CloudifyCliError(msg)
 
-    sys.exit(parsed_dict)
     return parsed_dict
 
 
