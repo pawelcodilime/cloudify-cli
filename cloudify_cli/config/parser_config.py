@@ -230,7 +230,6 @@ def parser_config():
                             archive_location_argument()),
                     '-n,--blueprint-filename': {
                         'dest': 'blueprint_filename',
-                        'default': DEFAULT_BLUEPRINT_FILE_NAME,
                         'help': "The name of the archive's main "
                                 "blueprint file. Defaults to `{0}`"
                                 .format(DEFAULT_BLUEPRINT_FILE_NAME)
