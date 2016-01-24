@@ -22,15 +22,29 @@ import os
 from cloudify_cli.commands import blueprints
 from cloudify_cli.commands import deployments
 from cloudify_cli.commands import executions
+from cloudify_cli.constants import DEFAULT_BLUEPRINT_FILE_NAME
+from cloudify_cli.constants import DEFAULT_BLUEPRINT_PATH
+from cloudify_cli.exceptions import CloudifyCliError
+
 
 
 def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
             deployment_id, inputs, workflow_id, parameters,
             allow_custom_parameters, timeout, include_logs):
 
-    # We use the `archive_location` argument to distinguish between using
-    # `install` in 'upload blueprint' mode, and using `install` in 'publish
-    # archive' mode.
+    # First, make sure the `blueprint-path` wasn't supplied with
+    # `archive_location` or with `blueprint_filename`
+    check_for_argument_collisions(blueprint_path,
+                                  archive_location,
+                                  blueprint_filename)
+
+    # Assuming no collisions, assign some default values for arguments:
+    blueprint_path = DEFAULT_BLUEPRINT_PATH
+    blueprint_filename = DEFAULT_BLUEPRINT_FILE_NAME
+
+    # The presence of the `archive_location` argument is used to distinguish
+    # between `install` in 'upload blueprint' mode,
+    # and `install` in 'publish archive' mode.
     if archive_location:
         # If blueprint-id wasn't supplied, assign it to the name of the archive
         if blueprint_id is None:
@@ -68,3 +82,13 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
 
     executions.start(workflow_id, deployment_id, timeout, force,
                      allow_custom_parameters, include_logs, parameters)
+
+
+def check_for_argument_collisions(blueprint_path,
+                                  archive_location,
+                                  blueprint_filename):
+    if blueprint_path and (archive_location or blueprint_filename):
+        raise CloudifyCliError(
+            "The `blueprint-path` argument can't be supplied with "
+            "the `archive-location` and/or the `blueprint-filename` arguments"
+        )
