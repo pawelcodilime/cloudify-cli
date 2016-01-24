@@ -18,6 +18,7 @@ CLOUDIFY_WD_SETTINGS_DIRECTORY_NAME = '.cloudify'
 CONFIG_FILE_NAME = 'cloudify-config.yaml'
 DEFAULTS_CONFIG_FILE_NAME = 'cloudify-config.defaults.yaml'
 DEFAULT_BLUEPRINT_FILE_NAME = 'blueprint.yaml'
+DEFAULT_BLUEPRINT_PATH = 'blueprint.yaml'
 
 AGENT_MIN_WORKERS = 2
 AGENT_MAX_WORKERS = 5
