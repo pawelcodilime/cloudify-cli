@@ -116,6 +116,8 @@ def inputs_to_dict(resources, resource_name):
         return None
     parsed_dict = {}
 
+    if isinstance(resources, str):
+        resources = [resources]
     for resource in resources:
         try:
             # parse resource as string representation of a dictionary
