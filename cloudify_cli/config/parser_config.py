@@ -217,11 +217,9 @@ def parser_config():
                     # TODO {archive-location, blueprint-filename}
                     # TODO mutually exclusive groups?
                     '-p,--blueprint-path': argument_utils.make_optional(
-                            argument_utils.set_default(
-                                    manager_blueprint_path_argument(
-                                            hlp="Path to the application's"
-                                                "blueprint file"
-                                    ), DEFAULT_BLUEPRINT_FILE_NAME
+                            manager_blueprint_path_argument(
+                                    hlp="Path to the application's"
+                                        "blueprint file"
                             )
                     ),
                     '-b,--blueprint-id': argument_utils.remove_completer(
