@@ -111,36 +111,41 @@ def get_context_path():
 
 
 def inputs_to_dict(resources, resource_name):
+
     if not resources:
         return None
     parsed_dict = {}
+
     for resource in resources:
         try:
             # parse resource as string representation of a dictionary
-            parsed_dict.update(plain_string_to_dict(resource))
+            content = plain_string_to_dict(resource)
         except CloudifyCliError:
             try:
                 # if resource is a path - parse as a yaml file
                 if os.path.exists(resource):
                     with open(resource, 'r') as f:
-                        parsed_dict.update(yaml.load(f.read()))
+                        content = yaml.load(f.read())
                 else:
                     # parse resource content as yaml
-                    parsed_dict.update(yaml.load(resource))
+                    content = yaml.load(resource)
             except yaml.error.YAMLError as e:
                 msg = ("'{0}' is not a valid YAML. {1}"
                        .format(resource_name, str(e)))
                 raise CloudifyCliError(msg)
 
-    if isinstance(parsed_dict, dict):
-        return parsed_dict
-    else:
-        msg = "Invalid input: {0}. {1} must represent a dictionary. Valid " \
-              "values can either be a path to a YAML file, a string " \
-              "formatted as YAML or a string formatted as " \
-              "key1=value1;key2=value2" \
-            .format(resource, resource_name)
-        raise CloudifyCliError(msg)
+        if isinstance(content, dict):
+            parsed_dict.update(content)
+        else:
+            msg = "Invalid input: {0}. {1} must represent a dictionary. Valid " \
+                  "values can either be a path to a YAML file, a string " \
+                  "formatted as YAML or a string formatted as " \
+                  "key1=value1;key2=value2" \
+                .format(resource, resource_name)
+            raise CloudifyCliError(msg)
+
+    sys.exit(parsed_dict)
+    return parsed_dict
 
 
 def plain_string_to_dict(input_string):
