@@ -226,7 +226,7 @@ def parser_config():
                             argument_utils.make_optional(blueprint_id_argument(
                             ))
                     ),
-                    '--archive-location': argument_utils.make_optional( # TODO this originally also had `-l`, but I removed it as it conflicted with the `-l` of `include logs`
+                    '--archive-location': argument_utils.make_optional(
                             archive_location_argument()),
                     '-n,--blueprint-filename': {
                         'dest': 'blueprint_filename',
@@ -246,7 +246,7 @@ def parser_config():
                                     hlp='The workflow to start (default: '
                                         '`install`')),
                             'install'),
-                    '--parameters': parameters_argument(),  # TODO this originally also had `-p`, but I removed it as it conflicted with the `-p` of `blueprint-path`
+                    '--parameters': parameters_argument(),
                     '--allow-custom-parameters':
                         allow_custom_parameters_argument(),
                     '--timeout': timeout_argument(),
