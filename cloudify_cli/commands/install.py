@@ -34,9 +34,9 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
 
     # First, make sure the `blueprint-path` wasn't supplied with
     # `archive_location` or with `blueprint_filename`
-    check_for_argument_collisions(blueprint_path,
-                                  archive_location,
-                                  blueprint_filename)
+    check_for_mutually_exclusive_arguments(blueprint_path,
+                                           archive_location,
+                                           blueprint_filename)
 
     # Assuming no collisions, assign some default values for arguments:
     blueprint_path = DEFAULT_BLUEPRINT_PATH
@@ -84,9 +84,9 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
                      allow_custom_parameters, include_logs, parameters)
 
 
-def check_for_argument_collisions(blueprint_path,
-                                  archive_location,
-                                  blueprint_filename):
+def check_for_mutually_exclusive_arguments(blueprint_path,
+                                           archive_location,
+                                           blueprint_filename):
     if blueprint_path and (archive_location or blueprint_filename):
         raise CloudifyCliError(
             "The `blueprint-path` argument can't be supplied with "
