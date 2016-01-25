@@ -89,6 +89,6 @@ def check_for_mutually_exclusive_arguments(blueprint_path,
                                            blueprint_filename):
     if blueprint_path and (archive_location or blueprint_filename):
         raise CloudifyCliError(
-            "The `blueprint-path` argument can't be supplied with "
-            "the `archive-location` and/or the `blueprint-filename` arguments"
+            "`blueprint-path` can't be supplied with "
+            "`archive-location` and/or `blueprint-filename`"
         )
