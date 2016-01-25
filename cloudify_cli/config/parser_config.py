@@ -19,7 +19,12 @@ import argparse
 
 from cloudify_cli import commands as cfy
 from cloudify_cli.config import completion_utils
-from cloudify_cli.config import argument_utils
+from cloudify_cli.config.argument_utils import remove_completer
+from cloudify_cli.config.argument_utils import remove_metavar
+from cloudify_cli.config.argument_utils import remove_type
+from cloudify_cli.config.argument_utils import make_required
+from cloudify_cli.config.argument_utils import make_optional
+from cloudify_cli.config.argument_utils import set_default
 from cloudify_cli.constants import DEFAULT_REST_PORT
 from cloudify_cli.constants import DEFAULT_BLUEPRINT_FILE_NAME
 
@@ -38,9 +43,8 @@ def manager_blueprint_path_argument(hlp):
 
 
 def local_blueprint_path_argument(hlp):
-    return argument_utils.remove_completer(
-        argument_utils.remove_metavar(
-            argument_utils.remove_type(manager_blueprint_path_argument(hlp))
+    return remove_completer(remove_metavar(remove_type(
+            manager_blueprint_path_argument(hlp))
         )
     )
 
@@ -216,17 +220,17 @@ def parser_config():
                     # TODO make {blueprint-path, blueprint-id} and
                     # TODO {archive-location, blueprint-filename}
                     # TODO mutually exclusive groups?
-                    '-p,--blueprint-path': argument_utils.make_optional(
+                    '-p,--blueprint-path': make_optional(
                             manager_blueprint_path_argument(
                                     hlp="Path to the application's"
                                         "blueprint file"
                             )
                     ),
-                    '-b,--blueprint-id': argument_utils.remove_completer(
-                            argument_utils.make_optional(blueprint_id_argument(
+                    '-b,--blueprint-id': remove_completer(
+                            make_optional(blueprint_id_argument(
                             ))
                     ),
-                    '--archive-location': argument_utils.make_optional(
+                    '--archive-location': make_optional(
                             archive_location_argument()),
                     '-n,--blueprint-filename': {
                         'dest': 'blueprint_filename',
@@ -241,8 +245,8 @@ def parser_config():
                         hlp='Inputs file/string for the deployment creation'
                             '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
                     ),
-                    '-w,--workflow': argument_utils.set_default(
-                            argument_utils.make_optional(workflow_id_argument(
+                    '-w,--workflow': set_default(
+                            make_optional(workflow_id_argument(
                                     hlp='The workflow to start (default: '
                                         '`install`')),
                             'install'),
@@ -258,11 +262,11 @@ def parser_config():
                 'help': '',  # TODO add help text
                 'arguments': {
                     '-b,--blueprint-id':
-                        argument_utils.make_optional(blueprint_id_argument()),
+                        make_optional(blueprint_id_argument()),
                     '-d,--deployment-id': deployment_id_argument(
                             hlp='The id of the deployed blueprint'),
-                    '-w,--workflow': argument_utils.set_default(
-                            argument_utils.make_optional(workflow_id_argument(
+                    '-w,--workflow': set_default(
+                            make_optional(workflow_id_argument(
                                     hlp='The workflow to start (default: '
                                         '`uninstall`')),
                             'uninstall'),
@@ -339,7 +343,7 @@ def parser_config():
                                         hlp="Path to the application's "
                                             "blueprint file"
                                 ),
-                            '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
+                            '-b,--blueprint-id': remove_completer(blueprint_id_argument())
                         },
                         'help': 'Upload a blueprint to the Manager',
                         'handler': cfy.blueprints.upload
@@ -352,7 +356,7 @@ def parser_config():
                                 'help': "The name of the archive's main "
                                         "blueprint file"
                             },
-                            '-b,--blueprint-id': argument_utils.remove_completer(blueprint_id_argument())
+                            '-b,--blueprint-id': remove_completer(blueprint_id_argument())
                         },
                         'help': 'Publish a blueprint archive from a path or '
                                 'a URL to the Manager',
@@ -413,7 +417,7 @@ def parser_config():
                 'sub_commands': {
                     'create': {
                         'arguments': {
-                            '-s,--snapshot-id': argument_utils.remove_completer(
+                            '-s,--snapshot-id': remove_completer(
                                 snapshot_id_argument(
                                     hlp='A unique id that will be assigned to the created snapshot'
                                 )
@@ -445,7 +449,7 @@ def parser_config():
                                 'help': "Path to the manager's snapshot file",
                                 'completer': completion_utils.yaml_files_completer
                             },
-                            '-s,--snapshot-id': argument_utils.remove_completer(snapshot_id_argument('The id of the snapshot'))
+                            '-s,--snapshot-id': remove_completer(snapshot_id_argument('The id of the snapshot'))
                         },
                         'help': 'Upload a snapshot to the Manager',
                         'handler': cfy.snapshots.upload
@@ -515,7 +519,7 @@ def parser_config():
                 'sub_commands': {
                     'create': {
                         'arguments': {
-                            '-d,--deployment-id': argument_utils.remove_completer(
+                            '-d,--deployment-id': remove_completer(
                                 deployment_id_argument(
                                     hlp='A unique id that will be assigned to '
                                         'the created deployment'
@@ -547,7 +551,7 @@ def parser_config():
                     },
                     'list': {
                         'arguments': {
-                            '-b,--blueprint-id': argument_utils.make_optional(
+                            '-b,--blueprint-id': make_optional(
                                 blueprint_id_argument()
                             )
                         },
@@ -664,7 +668,7 @@ def parser_config():
                                 'required': True,
                                 'help': "The node's id"
                             },
-                            '-d,--deployment-id': argument_utils.make_required(
+                            '-d,--deployment-id': make_required(
                                     deployment_id_argument(
                                             hlp='The deployment id to which '
                                                 'the node is related'))
@@ -752,8 +756,8 @@ def parser_config():
                         'help': '',  # TODO add help text
                         'arguments': {
                             '-p,--blueprint-path':
-                                argument_utils.make_optional(
-                                        argument_utils.set_default(
+                                make_optional(
+                                        set_default(
                                             local_blueprint_path_argument(
                                                 hlp="Path to the application's"
                                                     "blueprint file"
@@ -765,8 +769,8 @@ def parser_config():
                                         'deployment creation({0})'.
                                         format(FORMAT_INPUT_AS_YAML_OR_DICT)),
                             '--install-plugins': install_plugins_argument(),
-                            '-w,--workflow': argument_utils.set_default(
-                                    argument_utils.make_optional(
+                            '-w,--workflow': set_default(
+                                    make_optional(
                                             workflow_id_argument(
                                                 hlp="The workflow to start "
                                                     "(default: 'install')")),
@@ -785,8 +789,8 @@ def parser_config():
                     'uninstall': {
                         'help': '',  # TODO add help text
                         'arguments': {
-                            '-w,--workflow': argument_utils.set_default(
-                                    argument_utils.make_optional(
+                            '-w,--workflow': set_default(
+                                    make_optional(
                                             workflow_id_argument(
                                                 hlp="The workflow to start "
                                                     "(default: 'uninstall')")),
@@ -849,7 +853,7 @@ def parser_config():
                         'help': 'Execute a workflow locally',
                         'arguments': {
                             '-w,--workflow':
-                                argument_utils.remove_completer(
+                                remove_completer(
                                     workflow_id_argument(
                                         hlp='The workflow to execute locally'))
                             ,
