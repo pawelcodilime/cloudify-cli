@@ -19,6 +19,7 @@ CONFIG_FILE_NAME = 'cloudify-config.yaml'
 DEFAULTS_CONFIG_FILE_NAME = 'cloudify-config.defaults.yaml'
 DEFAULT_BLUEPRINT_FILE_NAME = 'blueprint.yaml'
 DEFAULT_BLUEPRINT_PATH = 'blueprint.yaml'
+INPUTS_PATH_FOR_INSTALL_COMMAND = 'inputs.yaml'
 
 AGENT_MIN_WORKERS = 2
 AGENT_MAX_WORKERS = 5

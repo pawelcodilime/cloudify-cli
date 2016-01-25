@@ -27,6 +27,7 @@ from cloudify_cli.config.argument_utils import make_optional
 from cloudify_cli.config.argument_utils import set_default
 from cloudify_cli.constants import DEFAULT_REST_PORT
 from cloudify_cli.constants import DEFAULT_BLUEPRINT_FILE_NAME
+from cloudify_cli.constants import INPUTS_PATH_FOR_INSTALL_COMMAND
 
 FORMAT_INPUT_AS_YAML_OR_DICT = 'formatted as YAML or as "key1=value1;key2=value2"'
 
@@ -79,9 +80,18 @@ def deployment_id_argument(hlp):
 def inputs_argument(hlp):
     return {
         'dest': 'inputs',
-        'default': 'inputs.yaml',
         'help': hlp
     }
+
+
+def install_command_inputs_argument():
+
+    return set_default(
+            inputs_argument('Inputs file/string for the deployment '
+                            'creation ({0}). Default: {1}'
+                            .format(FORMAT_INPUT_AS_YAML_OR_DICT,
+                                    INPUTS_PATH_FOR_INSTALL_COMMAND)),
+            INPUTS_PATH_FOR_INSTALL_COMMAND)
 
 
 def execution_id_argument(hlp):
@@ -241,10 +251,7 @@ def parser_config():
                     '-d,--deployment-id': deployment_id_argument(
                             hlp='The id of the deployed blueprint'
                     ),
-                    '-i,--inputs': inputs_argument(
-                        hlp='Inputs file/string for the deployment creation'
-                            '({0})'.format(FORMAT_INPUT_AS_YAML_OR_DICT)
-                    ),
+                    '-i,--inputs': install_command_inputs_argument(),
                     '-w,--workflow': set_default(
                             make_optional(workflow_id_argument(
                                     hlp='The workflow to start (default: '
@@ -764,10 +771,7 @@ def parser_config():
                                             ), DEFAULT_BLUEPRINT_FILE_NAME
                                         )
                                 ),
-                            '-i,--inputs': inputs_argument(
-                                    hlp='Inputs file/string for the '
-                                        'deployment creation({0})'.
-                                        format(FORMAT_INPUT_AS_YAML_OR_DICT)),
+                            '-i,--inputs': install_command_inputs_argument(),
                             '--install-plugins': install_plugins_argument(),
                             '-w,--workflow': set_default(
                                     make_optional(
