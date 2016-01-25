@@ -382,9 +382,12 @@ def _upload_provider_context(remote_agents_private_key_path, fabric_env,
     json.dump(full_provider_context, provider_context_json_file)
 
     request_params = '?update={0}'.format(update_context)
+    # using -k in the command below to Not verify the server's SSL certificate
     upload_provider_context_cmd = \
-        'curl --fail -XPOST localhost:8101/api/{0}/provider/context{1} -H ' \
-        '"Content-Type: application/json" -d @{2}'.format(
+        'curl --fail -k -XPOST ' \
+        '{0}://localhost:8101/api/{1}/provider/context{2} -H ' \
+        '"Content-Type: application/json" -d @{3}'.format(
+            _get_manager_protocol(manager_node),
             constants.API_VERSION, request_params,
             remote_provider_context_file)
 
@@ -394,6 +397,17 @@ def _upload_provider_context(remote_agents_private_key_path, fabric_env,
         # might need always_use_pty=True
         # uploading the provider context to the REST service
         fabric.run(upload_provider_context_cmd)
+
+
+def _get_manager_protocol(manager_node):
+    protocol = constants.DEFAULT_PROTOCOL
+    security_config = manager_node.properties['security']
+    if security_config.get('enabled', False):
+        ssl_config = security_config.get('ssl', {})
+        if ssl_config.get('enabled', False):
+            if ssl_config.get('secure_internal_communication', False):
+                protocol = constants.SECURED_PROTOCOL
+    return protocol
 
 
 def _dump_manager_deployment(manager_node_instance):
