@@ -37,9 +37,11 @@ def install(blueprint_path, blueprint_id, archive_location, blueprint_filename,
                                            archive_location,
                                            blueprint_filename)
 
-    # Assuming no collisions, assign some default values for arguments:
-    blueprint_path = DEFAULT_BLUEPRINT_PATH
-    blueprint_filename = DEFAULT_BLUEPRINT_FILE_NAME
+    # Assuming no collisions, assign some default values for missing arguments:
+    if blueprint_path is None:
+        blueprint_id = DEFAULT_BLUEPRINT_PATH
+    if blueprint_filename is None:
+        blueprint_filename = DEFAULT_BLUEPRINT_FILE_NAME
 
     # Run either `cfy blueprints upload` or `cfy blueprints publish-archive`
     blueprints_action(blueprint_path, archive_location,
